@@ -1,0 +1,50 @@
+@tailwind base;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a3a3a3 #181c28;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .spinner {
+    margin: 3.2rem auto 1.6rem;
+    width: 60px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid #fff;
+    border-right-color: #181c28;
+    animation: rotate 1s infinite linear;
+  }
+
+  .spinner-mini {
+    margin: 0;
+    width: 20px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    border-right-color: transparent;
+    animation: rotate 1s infinite linear;
+  }
+
+  @keyframes rotate {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+}
+
+.rdp {
+  --rdp-cell-size: 32px !important;
+  --rdp-accent-color: #fff !important;
+  --rdp-background-color: #fff !important;
+  margin: 0 !important;
+}
