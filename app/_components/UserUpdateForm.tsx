@@ -4,7 +4,7 @@ import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import countries from "../_helpers/countries";
+import { countries } from "../_helpers/countries";
 import { updateUser } from "../_lib/actions";
 import Button from "./Button";
 import ErrorSpan from "./ErrorSpan";

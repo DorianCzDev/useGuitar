@@ -1,9 +1,12 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { logout } from "../_lib/actions";
+import toast from "react-hot-toast";
 
 function AccountSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   return (
     <ul className="list-none">
       <Link href={"/account/user"} className="">
@@ -15,10 +18,10 @@ function AccountSidebar() {
           user data
         </li>
       </Link>
-      <Link href={"/account/changePassword"}>
+      <Link href={"/account/change-password"}>
         <li
           className={`flex items-center justify-start uppercase tracking-widest font-bold cursor-pointer text-xl border-b border-primary-700 pb-3 pt-3 transition-all hover:text-neutral-200 ${
-            pathname.includes("changePassword")
+            pathname.includes("change-password")
               ? "text-neutral-200"
               : "text-neutral-500"
           }`}
@@ -26,10 +29,10 @@ function AccountSidebar() {
           change Password
         </li>
       </Link>
-      <Link href={"/account/myOrders"}>
+      <Link href={"/account/my-orders"}>
         <li
           className={`flex items-center justify-start uppercase tracking-widest font-bold cursor-pointer text-xl border-b border-primary-700 pb-3 pt-3 transition-all hover:text-neutral-200 ${
-            pathname.includes("myOrders")
+            pathname.includes("my-orders")
               ? "text-neutral-200"
               : "text-neutral-500"
           }`}
@@ -38,6 +41,13 @@ function AccountSidebar() {
         </li>
       </Link>
       <li
+        onClick={async () => {
+          const { msg, status } = await logout();
+          router.push("/");
+          if (status === 200) {
+            toast.success(msg);
+          } else toast.error(msg);
+        }}
         className={`flex items-center justify-start uppercase tracking-widest font-bold cursor-pointer text-xl border-b border-primary-700 pb-3 pt-3 transition-all hover:text-neutral-200 text-neutral-500 `}
       >
         Logout

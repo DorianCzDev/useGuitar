@@ -15,13 +15,18 @@ import Delivery from "../_models/Delivery";
 import Order from "../_models/Order";
 import Review from "../_models/Review";
 import { revalidatePath } from "next/cache";
+import sendVerificationEmail from "../_utils/sendVerificationEmail";
+import sendResetPasswordEmail from "../_utils/sendResetPasswordEmail";
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 
-export async function login(formData: FormData) {
+export async function login({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   await connectMongo();
-  const email = formData.get("email");
-  const password = formData.get("password");
-
   if (!email || !password) {
     return {
       status: StatusCodes.BAD_REQUEST,
@@ -50,7 +55,7 @@ export async function login(formData: FormData) {
     };
   }
   if (!user.isActive) {
-    cookies().delete("acessToken");
+    cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
       status: StatusCodes.UNAUTHORIZED,
@@ -101,6 +106,8 @@ export async function updateUser(data: {
   } = jwt.verify(accessToken, process.env.JWT_SECRET);
 
   if (!userId) {
+    cookies().delete("accessToken");
+    cookies().delete("refreshToken");
     return {
       status: StatusCodes.UNAUTHORIZED,
       msg: "Please log in",
@@ -167,6 +174,8 @@ export async function createOrder({
   } = jwt.verify(accessToken, process.env.JWT_SECRET);
 
   if (!userId) {
+    cookies().delete("accessToken");
+    cookies().delete("refreshToken");
     return {
       status: StatusCodes.UNAUTHORIZED,
       msg: "Please log in",
@@ -270,6 +279,8 @@ export async function createReview({
   } = jwt.verify(accessToken, process.env.JWT_SECRET);
 
   if (!userId) {
+    cookies().delete("accessToken");
+    cookies().delete("refreshToken");
     return {
       status: StatusCodes.UNAUTHORIZED,
     };
@@ -302,4 +313,184 @@ export async function createReview({
   revalidatePath("/products");
 
   return { status: StatusCodes.CREATED, msg: "Review added" };
+}
+
+export async function signUp(data) {
+  await connectMongo();
+  const { email, password } = data;
+  if (!email || !password) {
+    return {
+      status: StatusCodes.BAD_REQUEST,
+      msg: "Please provide email and password",
+    };
+  }
+
+  const verificationToken = crypto.randomBytes(40).toString("hex");
+  const user = await User.create({ email, password, verificationToken });
+
+  const origin = "http://localhost:3000/";
+
+  await sendVerificationEmail({
+    email: user.email,
+    verificationToken: user.verificationToken,
+    origin,
+  });
+
+  return {
+    status: StatusCodes.CREATED,
+    msg: "Success! Please check your email to verify account",
+  };
+}
+
+export async function verifyEmail({
+  email,
+  verificationToken,
+}: {
+  email: string;
+  verificationToken: string;
+}) {
+  const user = await User.findOne({ email, verificationToken }).select(
+    "isVerified verificationToken"
+  );
+  if (!user) {
+    return {
+      status: StatusCodes.UNAUTHORIZED,
+    };
+  }
+
+  user.isVerified = true;
+  user.verificationToken = "";
+  await user.save();
+
+  return {
+    status: StatusCodes.OK,
+    msg: "Now your account is activated and you can sign in.",
+  };
+}
+
+export async function forgotPassword({ email }: { email: string }) {
+  await connectMongo();
+  if (!email) {
+    throw new CustomError.BadRequestError("Email doesn't exists");
+  }
+  const user = await User.findOne({ email }).select(
+    "forgotPasswordToken forgotPasswordTokenExpirationDate name email"
+  );
+  if (!user) {
+    throw new CustomError.BadRequestError("User doesn't exists");
+  }
+
+  const forgotPasswordToken = crypto.randomBytes(40).toString("hex");
+
+  const origin = "http://localhost:3000/";
+  await sendResetPasswordEmail({
+    email: user.email,
+    forgotPasswordToken,
+    origin,
+  });
+
+  const expiresIn = 1000 * 60 * 15; // 15 min
+  const forgotPasswordTokenExpirationDate = new Date(Date.now() + expiresIn);
+
+  user.forgotPasswordToken = crypto
+    .createHash("md5")
+    .update(forgotPasswordToken)
+    .digest("hex");
+  user.forgotPasswordTokenExpirationDate = forgotPasswordTokenExpirationDate;
+  await user.save();
+
+  return {
+    status: StatusCodes.OK,
+    msg: "Please check your email for reset password link",
+  };
+}
+
+export async function resetPassword({
+  forgotPasswordToken,
+  email,
+  password,
+}: {
+  forgotPasswordToken: string;
+  email: string;
+  password: string;
+}) {
+  await connectMongo();
+  if (!forgotPasswordToken || !email || !password) {
+    throw new CustomError.BadRequestError("Please provide all values");
+  }
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new CustomError.BadRequestError("User doesn't exists");
+  }
+  const currentDate = new Date();
+  if (
+    user.forgotPasswordToken ===
+      crypto.createHash("md5").update(forgotPasswordToken).digest("hex") &&
+    user.forgotPasswordTokenExpirationDate > currentDate
+  ) {
+    user.password = password;
+    user.forgotPasswordToken = null;
+    user.forgotPasswordTokenExpirationDate = null;
+    await user.save();
+  }
+  return { status: StatusCodes.OK, msg: "Your password is updated" };
+}
+
+export async function updateUserPassword({
+  currPassword,
+  newPassword,
+}: {
+  currPassword: string;
+  newPassword: string;
+}) {
+  await connectMongo();
+  const accessToken = cookies().get("accessToken")?.value;
+  const {
+    user: { userId },
+  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+
+  if (!userId) {
+    cookies().delete("accessToken");
+    cookies().delete("refreshToken");
+    return {
+      status: StatusCodes.UNAUTHORIZED,
+    };
+  }
+  if (!currPassword || !newPassword) {
+    throw new CustomError.BadRequestError("Please provide all values");
+  }
+  const user = await User.findOne({ _id: userId });
+
+  const isPasswordCorrect = await user.comparePassword(currPassword);
+
+  if (!isPasswordCorrect) {
+    return { status: StatusCodes.UNAUTHORIZED, msg: "Invalid password" };
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  return { status: StatusCodes.OK, msg: "Password updated!" };
+}
+
+export async function logout() {
+  await connectMongo();
+
+  const accessToken = cookies().get("accessToken")?.value;
+  const {
+    user: { userId },
+  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+  cookies().delete("accessToken");
+  cookies().delete("refreshToken");
+
+  if (!userId) {
+    return {
+      status: StatusCodes.UNAUTHORIZED,
+      msg: "You are not logged in",
+    };
+  }
+  await Token.findOneAndDelete({ user: userId });
+
+  return { status: StatusCodes.OK, msg: "You logged out" };
 }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import countries from "../_helpers/countries";
+import { countries } from "../_helpers/countries";
 
 const SingleOrderItemSchema = mongoose.Schema({
   name: {

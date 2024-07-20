@@ -24,6 +24,7 @@ function Menu() {
             className="object-cover aspect-[4/2]"
             width={300}
             height={300}
+            priority={true}
           />
         </Link>
       </div>

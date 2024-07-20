@@ -91,7 +91,10 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
                 focusOnSelect={false}
               >
                 {images.map((image) => (
-                  <div className="relative h-[800px] w-[450px]">
+                  <div
+                    className="relative h-[800px] w-[450px]"
+                    key={image.imageId}
+                  >
                     <img
                       src={image.imageURL}
                       className="mx-auto absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] max-w-[450px] max-h-[800px]"

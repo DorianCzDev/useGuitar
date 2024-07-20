@@ -1,37 +1,35 @@
 "use client";
 
-import { StatusCodes } from "http-status-codes";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useState, useTransition } from "react";
-import toast from "react-hot-toast";
-import { login } from "../_lib/actions";
-import SpinnerMini from "./SpinnerMini";
-import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import ErrorSpan from "./ErrorSpan";
+import { useTransition } from "react";
+import { signUp } from "../_lib/actions";
+import { useRouter } from "next/navigation";
+import SpinnerMini from "./SpinnerMini";
 
-function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function SignupForm() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
-
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
   async function onSubmit(data) {
-    const { email, password } = data;
+    if (data.password !== data.confirmPassword) {
+      return toast.error("Passwords doesn't match.");
+    }
     startTransition(async () => {
-      const { status, msg } = await login({ email, password });
-      if (status === StatusCodes.OK) {
-        toast.success(msg);
-        redirect("/");
-      } else {
+      const { msg, status } = await signUp(data);
+      if (status !== 201) {
         toast.error(msg);
+      } else {
+        toast.success(msg);
+        router.push("/");
       }
     });
   }
@@ -45,16 +43,15 @@ function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="py-6 px-10 w-[500px] bg-primary-950 border border-primary-700 rounded-xl"
+      className="py-10 px-10 w-[500px] bg-primary-950 border border-primary-700 rounded-xl"
     >
-      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3 pt-4">
+      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3 pb-1">
         <label className="block" htmlFor="email">
           E-mail
         </label>
         <input
           className="text-sm py-2 px-3 rounded-md bg-transparent outline-none border border-primary-700 focus:border-primary-500 tracking-wide"
           type="email"
-          autoComplete="email"
           disabled={isPending}
           {...register("email", {
             required: "Please provide email",
@@ -74,14 +71,13 @@ function LoginForm() {
           render={({ message }) => <ErrorSpan>{message}</ErrorSpan>}
         />
       </div>
-      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3 pb-4">
+      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3   pb-2">
         <label className="block" htmlFor="password">
           Password
         </label>
         <input
           className="text-sm py-2 px-3 rounded-md bg-transparent outline-none border border-primary-700 focus:border-primary-500 tracking-wide"
           type="password"
-          autoComplete="password"
           disabled={isPending}
           {...register("password", {
             required: "Please provide password",
@@ -101,22 +97,37 @@ function LoginForm() {
           render={({ message }) => <ErrorSpan>{message}</ErrorSpan>}
         />
       </div>
-      <div className="flex flex-col p-3 gap-2">
-        <button
+      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3  pb-1">
+        <label className="block" htmlFor="confirmPassword">
+          Confirm password
+        </label>
+        <input
+          className="text-sm py-2 px-3 rounded-md bg-transparent outline-none border border-primary-700 focus:border-primary-500 tracking-wide"
+          type="password"
           disabled={isPending}
+          {...register("confirmPassword", {
+            required: "Please confirm password",
+          })}
+        />
+        <ErrorMessage
+          errors={errors}
+          name="confirmPassword"
+          render={({ message }) => <ErrorSpan>{message}</ErrorSpan>}
+        />
+      </div>
+      <div className="flex flex-col pb-3 pt-4 pr-3 pl-3 gap-2 ">
+        <button
           type="submit"
-          className="flex w-full items-center justify-center min-h-16 outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 rounded-lg hover:bg-secondary-600 text-xl tracking-widest text-white"
+          disabled={isPending}
+          className="flex w-full items-center justify-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 rounded-lg hover:bg-secondary-600 text-xl tracking-widest text-white"
         >
-          {isPending ? <SpinnerMini /> : "Login"}
+          {isPending ? <SpinnerMini /> : "Register"}
         </button>
-        <Link href="/forgot-password">
-          <div className="text-secondary-500 font-bold tracking-wider cursor-pointer">
-            I forgot password
-          </div>
-        </Link>
-        <Link href="/sign-up">
-          <div className="text-secondary-500 font-bold tracking-wider cursor-pointer">
-            If you aren't registered, please sign up.
+        <Link href={"/login"}>
+          <div>
+            <div className="text-secondary-500 font-bold tracking-wider cursor-pointer">
+              If you are already registered, sign in.
+            </div>
           </div>
         </Link>
       </div>
@@ -124,4 +135,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignupForm;

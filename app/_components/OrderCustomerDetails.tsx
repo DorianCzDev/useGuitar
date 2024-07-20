@@ -10,20 +10,26 @@ type OrderCustomerDetailsProps = {
     phoneNumber: string;
     country: string;
   };
+  type?: "cart" | "order";
 };
 
-function OrderCustomerDetails({ user }: OrderCustomerDetailsProps) {
+function OrderCustomerDetails({
+  user,
+  type = "cart",
+}: OrderCustomerDetailsProps) {
   return (
     <div className=" bg-accent-500 rounded-xl w-max relative py-5 px-7 group">
       <p className="text-lg py-2 tracking-wide">{`${user.firstName} ${user.lastName}`}</p>
       <p className="text-lg py-2 tracking-wide">{`${user.address} ${user.postCode} ${user.city} `}</p>
       <p className="text-lg py-2 tracking-wide">{`${user.phoneNumber} ${user.country} `}</p>
-      <Link
-        href={`/cart/update-user`}
-        className="absolute top-5 right-4 text-secondary-500 cursor-pointer text-lg opacity-0 transition-all group-hover:opacity-100"
-      >
-        edit
-      </Link>
+      {type === "cart" && (
+        <Link
+          href={`/cart/update-user`}
+          className="absolute top-5 right-4 text-secondary-500 cursor-pointer text-lg opacity-0 transition-all group-hover:opacity-100"
+        >
+          edit
+        </Link>
+      )}
     </div>
   );
 }

@@ -1,20 +1,27 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Spinner from "./Spinner";
 
-import Link from "next/link";
-import { ChildrenOnlyProps } from "../_types/types";
-import priceFormater from "../_helpers/priceFormater";
-import { useSelector } from "react-redux";
 import { createValidProductObject } from "@/app/_helpers/createValidProductObject";
-import { getTotalCartPrice } from "../_utils/cartSlice";
-import OrderSummaryPriceAside from "./OrderSummaryPriceAside";
-import OrderCustomerDetails from "./OrderCustomerDetails";
-import DeliveryMethod from "./DeliveryMethod";
-import { createOrder } from "../_lib/actions";
-import Button from "./Button";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import priceFormater from "../_helpers/priceFormater";
 import setLocalStorageItem from "../_helpers/setLocalStorageItem";
+import { createOrder } from "../_lib/actions";
+import { getTotalCartPrice } from "../_utils/cartSlice";
+import Button from "./Button";
+import DeliveryMethod from "./DeliveryMethod";
+import OrderCustomerDetails from "./OrderCustomerDetails";
+import OrderSummaryPriceAside from "./OrderSummaryPriceAside";
+import {
+  OrderSummaryNumberSpan,
+  OrderSummarySpan,
+  OrderSummaryTableFooter,
+  OrderSummaryTableHeader,
+  OrderSummaryTableRow,
+} from "./OrderSummaryUI";
+import SpinnerMini from "./SpinnerMini";
 
 type OrderSummaryProps = {
   cartProducts: {};
@@ -28,6 +35,7 @@ type OrderSummaryProps = {
 function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
   const [deliveryDetails, setDeliveryDetails] = useState({
     supplier: "",
     cost: 0,
@@ -89,17 +97,17 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
       country: user.country,
     };
 
-    await createOrder({ body });
-
-    let {
-      status,
-      data: { order },
-    } = await createOrder({ body });
-    order = JSON.parse(order);
-    if (status === 201) {
-      setLocalStorageItem("cart", "");
-      router.push(`/payment/${order._id}`);
-    }
+    startTransition(async () => {
+      let {
+        status,
+        data: { order },
+      } = await createOrder({ body });
+      order = JSON.parse(order);
+      if (status === 201) {
+        setLocalStorageItem("cart", "");
+        router.push(`/payment/${order._id}`);
+      }
+    });
   }
 
   return (
@@ -161,8 +169,11 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
           totalPrice={totalPrice}
         />
         <div className="pb-4">
-          <Button onClick={handleButton} disabled={deliveryDetails.cost === 0}>
-            Pay and order
+          <Button
+            onClick={handleButton}
+            disabled={deliveryDetails.cost === 0 || isPending}
+          >
+            {isPending ? <SpinnerMini /> : "Pay and order"}
           </Button>
         </div>
       </aside>
@@ -175,35 +186,3 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
 }
 
 export default OrderSummary;
-
-function OrderSummaryTableHeader({ children }: ChildrenOnlyProps) {
-  return (
-    <div className="grid grid-cols-[80px_1fr_140px_120px_180px] border border-primary-700 rounded-t-lg h-[60px] w-full">
-      {children}
-    </div>
-  );
-}
-
-function OrderSummarySpan({ children }: ChildrenOnlyProps) {
-  return <span className=" my-auto px-6 font-light text-lg">{children}</span>;
-}
-
-function OrderSummaryNumberSpan({ children }: ChildrenOnlyProps) {
-  return <span className=" my-auto  font-light text-lg pl-10">{children}</span>;
-}
-
-function OrderSummaryTableRow({ children }: ChildrenOnlyProps) {
-  return (
-    <div className="grid grid-cols-[80px_1fr_140px_120px_180px] border-b border-l border-r border-primary-700  h-[70px] w-full bg-accent-500">
-      {children}
-    </div>
-  );
-}
-
-function OrderSummaryTableFooter({ children }: ChildrenOnlyProps) {
-  return (
-    <div className="flex justify-end items-center pr-10 border-l border-r border-b rounded-b-xl h-[60px] w-full border-primary-700">
-      {children}
-    </div>
-  );
-}

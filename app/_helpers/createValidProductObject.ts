@@ -8,7 +8,15 @@ export function createValidProductObject(
   }[],
   cart: []
 ) {
-  let products: {}[] = [];
+  let products: {
+    category: string;
+    imageURL: string;
+    name: string;
+    price: number;
+    _id: string;
+    quantity: number;
+    image: string;
+  }[] = [];
   for (const [index, cartProduct] of cartProducts.entries()) {
     const { category, imageURL: image, name, price, _id } = cartProduct;
     const { quantity } = cart[index];

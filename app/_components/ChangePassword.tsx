@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import UserUpdateForm from "./UserUpdateForm";
 import { useRouter } from "next/navigation";
+import ChangePasswordForm from "./ChangePasswordForm";
 
-function UserUpdate() {
+function ChangePassword() {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
@@ -24,12 +24,11 @@ function UserUpdate() {
   if (data.status !== 200) {
     return router.push("/login");
   }
-  const user = { ...data.user };
   return (
     <div>
-      <UserUpdateForm user={user} />
+      <ChangePasswordForm />
     </div>
   );
 }
 
-export default UserUpdate;
+export default ChangePassword;

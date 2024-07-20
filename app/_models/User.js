@@ -1,7 +1,7 @@
 import "server-only";
 
 import mongoose from "mongoose";
-import countries from "../_helpers/countries";
+import { countries } from "../_helpers/countries";
 import bcrypt from "bcrypt";
 
 const UserSchema = new mongoose.Schema(

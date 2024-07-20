@@ -7,7 +7,7 @@ function Layout({ children }: ChildrenOnlyProps) {
       <aside className="flex mt-40 flex-col h-fit">
         <AccountSidebar />
       </aside>
-      <article className="mt-24 w-[900px] mx-auto px-8">{children}</article>
+      <article className="mt-24 w-full mx-auto px-8">{children}</article>
     </div>
   );
 }
