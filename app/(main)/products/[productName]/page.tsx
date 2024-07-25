@@ -6,12 +6,19 @@ import { getProductReviews } from "@/app/_lib/reviewsController";
 import { Suspense } from "react";
 import Spinner from "@/app/_components/Spinner";
 import ProductDetailsHeader from "@/app/_components/ProductDetailsHeader";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import ProductDetailsTable from "@/app/_components/ProductDetailsTable";
 import ProductDetailsDescription from "@/app/_components/ProductDetailsDescription";
 import Reviews from "@/app/_components/Reviews";
 
-async function Page({ params, searchParams }: Params) {
+async function Page({
+  params,
+  searchParams,
+}: {
+  params: {
+    productName: string;
+  };
+  searchParams: {};
+}) {
   let { productName } = params;
   productName = productName.replaceAll("_", " ");
   let { product } = await getSingleProduct({ productName });
