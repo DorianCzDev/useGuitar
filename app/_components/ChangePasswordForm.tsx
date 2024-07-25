@@ -38,9 +38,9 @@ function ChangePasswordForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="w-[600px] mx-auto"
+      className="w-[600px] mx-auto sm:w-11/12"
     >
-      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3   pb-2">
+      <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3 pb-2">
         <label className="block" htmlFor="currPassword">
           Current password
         </label>

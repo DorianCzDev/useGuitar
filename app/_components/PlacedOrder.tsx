@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import PlacedOrderOvierview from "./PlacedOrderOvierview";
-import PlacedOrderStatus from "./PlacedOrderStatus";
 import { useRouter } from "next/navigation";
-import Spinner from "./Spinner";
+import { useState } from "react";
+import priceFormater from "../_helpers/priceFormater";
+import useAuth from "../_hooks/useAuth";
 import {
   OrderSummaryNumberSpan,
   OrderSummarySpan,
@@ -12,7 +11,9 @@ import {
   OrderSummaryTableHeader,
   OrderSummaryTableRow,
 } from "./OrderSummaryUI";
-import priceFormater from "../_helpers/priceFormater";
+import PlacedOrderOvierview from "./PlacedOrderOvierview";
+import PlacedOrderStatus from "./PlacedOrderStatus";
+import Spinner from "./Spinner";
 
 function PlacedOrder({
   order,
@@ -38,36 +39,25 @@ function PlacedOrder({
     }[];
   };
 }) {
-  const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const data = useAuth({ setLoading });
   const router = useRouter();
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/auth")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-
   if (isLoading) return <Spinner />;
-
-  if (data.status !== 200) {
+  if (data.status !== 200 || !data.user) {
     return router.push("/login");
   }
 
   const { orderItems } = order;
-  console.log(orderItems);
+
   return (
     <>
-      <div className="flex gap-7">
+      <div className="flex gap-7 md:block">
         <PlacedOrderOvierview order={order} />
         <PlacedOrderStatus order={order} />
       </div>
       <div className="mt-5">
         <OrderSummaryTableHeader>
-          <OrderSummarySpan></OrderSummarySpan>
+          <span className=" my-auto px-6 font-light text-lg md:hidden"></span>
           <OrderSummarySpan>Name</OrderSummarySpan>
           <OrderSummarySpan>Unit price</OrderSummarySpan>
           <OrderSummarySpan>Amount</OrderSummarySpan>
@@ -75,7 +65,7 @@ function PlacedOrder({
         </OrderSummaryTableHeader>
         {orderItems.map((item) => (
           <OrderSummaryTableRow key={item._id}>
-            <div className=" my-auto px-6 flex justify-center items-center">
+            <div className=" my-auto px-6 flex justify-center items-center md:hidden">
               <img
                 className="flex w-auto h-auto max-w-10 max-h-[60px] object-cover"
                 src={item.image}
@@ -83,11 +73,11 @@ function PlacedOrder({
             </div>
             <OrderSummarySpan>{item.name}</OrderSummarySpan>
             <OrderSummaryNumberSpan>
-              $ {priceFormater(item.price)}
+              {priceFormater(item.price)}
             </OrderSummaryNumberSpan>
             <OrderSummaryNumberSpan>{item.quantity}</OrderSummaryNumberSpan>
             <OrderSummaryNumberSpan>
-              $ {priceFormater(item.price * item.quantity)}
+              {priceFormater(item.price * item.quantity)}
             </OrderSummaryNumberSpan>
           </OrderSummaryTableRow>
         ))}
@@ -96,7 +86,7 @@ function PlacedOrder({
             Total price (with delivery cost):
           </span>
           <span className="my-auto px-6 font-light text-lg pr-6">
-            $ {priceFormater(order.total)}
+            {priceFormater(order.total)}
           </span>
         </OrderSummaryTableFooter>
       </div>

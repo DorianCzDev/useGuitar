@@ -24,7 +24,7 @@ function CartSummary() {
   }, []);
 
   return (
-    <aside className="sticky w-4/5 top-56 h-[450px] mx-auto mt-8">
+    <aside className="sticky w-4/5 top-56 h-[450px] mx-auto mt-8 lg:static lg:h-max">
       <h1 className="text-[40px] font-bold tracking-widest p-2 mb-3 text-neutral-300 text-center border-b border-primary-700">
         Summary
       </h1>

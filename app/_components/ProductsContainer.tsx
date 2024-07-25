@@ -25,15 +25,15 @@ function ProductsContainer({
   return (
     <>
       <Search />
-      <div className="grid grid-cols-[300px_3fr] mt-8">
-        <aside className="flex flex-col h-fit">
+      <div className="grid grid-cols-[300px_3fr] mt-8 md:block">
+        <aside className="flex flex-col h-fit md:px-4 md:pb-6">
           <Filter
             productsBody={productsBody}
             productsNeck={productsNeck}
             setCurrPage={setCurrPage}
           />
         </aside>
-        <article>
+        <article className="pb-10">
           <Sort />
           <ProductList products={products} productsCount={productsCount} />
           <Pagination

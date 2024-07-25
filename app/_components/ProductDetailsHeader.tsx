@@ -52,7 +52,7 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currImage, setCurrImage] = useState<number | undefined>(undefined);
   return (
-    <header className="mx-auto w-9/12">
+    <header className="mx-auto w-9/12 lg:w-full">
       <div>
         {modalIsOpen && (
           <div>
@@ -61,7 +61,7 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
               onRequestClose={() => setModalIsOpen(false)}
               style={{
                 content: {
-                  width: "850px",
+                  width: "50vw",
                   top: "50%",
                   left: "50%",
                   right: "auto",
@@ -69,7 +69,7 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
                   transform: "translate(-50%, -50%)",
                   overflowY: "hidden",
                   overflowX: "hidden",
-                  padding: " 32px 0",
+                  padding: "32px 0",
                 },
                 overlay: {
                   backgroundColor: "rgba(19, 23, 32, .9)",
@@ -127,8 +127,14 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
             {name}
           </Link>
         </div>
-        <div className="grid grid-cols-[500px_500px] pt-3">
-          <div className="h-[600px] w-[500px] bg-white px-4">
+        <div className="grid grid-cols-[500px_500px] pt-3 lg:block ">
+          <div className="mx-auto hidden w-full md:block md:pt-10">
+            <img
+              src={images[0].imageURL}
+              className="flex justify-center max-w-[350px] max-h-[450px] mx-auto"
+            />
+          </div>
+          <div className="h-[600px] w-[500px] bg-white px-4 lg:mx-auto md:hidden">
             <Slider
               slidesToShow={1}
               arrows={false}
@@ -157,8 +163,8 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
               ))}
             </Slider>
           </div>
-          <div className="h-[600px] flex justify-center items-center font-bold w-[400px] mx-auto">
-            <div className="w-full">
+          <div className="h-[600px] flex justify-center items-center font-bold w-[400px] mx-auto lg:h-fit lg:pt-5 lg:w-full">
+            <div className="w-full lg:w-3/4 lg:mx-auto">
               <h1 className=" pt-5 pb-2 tracking-widest uppercase text-2xl">
                 {name}
               </h1>
@@ -166,7 +172,7 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
                 <div className="text-3xl">
                   ${priceFormater(price)}
                   {discount > 0 && (
-                    <span className="ml-3 line-through font-light text-red-600 text-2xl">
+                    <span className="ml-3 line-through font-normal text-red-600 text-2xl">
                       ${priceFormater(noDiscountPrice)}
                     </span>
                   )}

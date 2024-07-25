@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import Spinner from "./Spinner";
 
 import { createValidProductObject } from "@/app/_helpers/createValidProductObject";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import priceFormater from "../_helpers/priceFormater";
 import setLocalStorageItem from "../_helpers/setLocalStorageItem";
+import useAuth from "../_hooks/useAuth";
 import { createOrder } from "../_lib/actions";
 import { getTotalCartPrice } from "../_utils/cartSlice";
 import Button from "./Button";
@@ -24,16 +25,15 @@ import {
 import SpinnerMini from "./SpinnerMini";
 
 type OrderSummaryProps = {
-  cartProducts: {};
+  cartProducts: [];
   deliveries: {
     supplier: string;
     cost: number;
     time: number;
-  };
+  }[];
 };
 
 function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
-  const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [isPending, startTransition] = useTransition();
   const [deliveryDetails, setDeliveryDetails] = useState({
@@ -41,23 +41,19 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
     cost: 0,
   });
 
+  const router = useRouter();
   const cart = useSelector((state) => state.cart.cartAfterFetch);
   const totalCartPrice = useSelector(getTotalCartPrice);
 
-  const router = useRouter();
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/auth")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
+  const data = useAuth({ setLoading });
+  if (isLoading) return <Spinner />;
+  if (data.status !== 200 || !data.user) {
+    return router.push("/login");
+  }
+  const user = { ...data.user };
 
   if (isLoading) return <Spinner />;
-
-  const user = { ...data.user };
+  if (!cart || cart.length === 0) return router.push("/");
 
   const products = createValidProductObject(cartProducts, cart);
 
@@ -111,7 +107,7 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
   }
 
   return (
-    <div className="mt-10 mx-auto grid grid-cols-[1fr_450px] relative">
+    <div className="mt-10 mx-auto grid grid-cols-[1fr_450px] relative lg:block">
       <article>
         <h1 className="text-[40px] font-bold tracking-widest p-2 mb-6 text-neutral-400">
           Order overview
@@ -119,7 +115,7 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
         <OrderCustomerDetails user={user} />
         <div className="mt-5">
           <OrderSummaryTableHeader>
-            <OrderSummarySpan></OrderSummarySpan>
+            <span className=" my-auto px-6 font-light text-lg md:hidden"></span>
             <OrderSummarySpan>Name</OrderSummarySpan>
             <OrderSummarySpan>Unit price</OrderSummarySpan>
             <OrderSummarySpan>Amount</OrderSummarySpan>
@@ -127,7 +123,7 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
           </OrderSummaryTableHeader>
           {products.map((product) => (
             <OrderSummaryTableRow key={product._id}>
-              <div className=" my-auto px-6 flex justify-center items-center">
+              <div className=" my-auto px-6 flex justify-center items-center md:hidden">
                 <img
                   className="flex w-auto h-auto max-w-10 max-h-[60px] object-cover"
                   src={product.image}
@@ -142,13 +138,13 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
                 </Link>
               </OrderSummarySpan>
               <OrderSummaryNumberSpan>
-                $ {priceFormater(product.price)}
+                {priceFormater(product.price)}
               </OrderSummaryNumberSpan>
               <OrderSummaryNumberSpan>
                 {product.quantity}
               </OrderSummaryNumberSpan>
               <OrderSummaryNumberSpan>
-                $ {priceFormater(product.price * product.quantity)}
+                {priceFormater(product.price * product.quantity)}
               </OrderSummaryNumberSpan>
             </OrderSummaryTableRow>
           ))}
@@ -162,7 +158,7 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
           </OrderSummaryTableFooter>
         </div>
       </article>
-      <aside className="sticky top-[300px] w-[84%] h-fit py-4 px-7 rounded-2xl bg-accent-500 mt-8 mx-auto">
+      <aside className="sticky top-[300px] w-[84%] h-fit py-4 px-7 rounded-2xl bg-accent-500 mt-8 mx-auto lg:static">
         <OrderSummaryPriceAside
           deliveryDetails={deliveryDetails}
           totalCartPrice={totalCartPrice}

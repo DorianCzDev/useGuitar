@@ -11,7 +11,7 @@ async function Page({ searchParams }: { searchParams: { id: string } }) {
   const { products } = await getProductsFromCart(id);
 
   return (
-    <div className="grid grid-cols-[1fr_450px] mx-auto mt-12 mb-20 w-full relative">
+    <div className="grid grid-cols-[1fr_450px] mx-auto mt-12 mb-20 w-full relative lg:block">
       <CartTable products={products} />
       <CartSummary />
     </div>

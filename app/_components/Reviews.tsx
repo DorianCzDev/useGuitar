@@ -33,6 +33,7 @@ function Reviews({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  console.log(averageRating);
 
   function handleFilter(name: string, value: string) {
     const params = new URLSearchParams(searchParams);
@@ -63,10 +64,10 @@ function Reviews({
   }
 
   return (
-    <div className="pb-10 w-[1000px] mx-auto">
-      <div className="mt-10 pt-7 px-6 pb-3 border border-primary-700 bg-accent-500 rounded-2xl">
+    <div className="pb-10 w-[1000px] mx-auto lg:w-full">
+      <div className="mt-10 pt-7 px-6 pb-3 border border-primary-700 bg-accent-500 rounded-2xl md:px-0 md:pt-3">
         <div className="flex justify-between items-center">
-          <div className="w-1/2 grid grid-cols-[250px_100px]">
+          <div className="basis-1/2 grid grid-cols-[250px_100px] lg:grid-cols-[2fr_1fr]">
             <div>
               <div
                 onClick={() => handleFilter("rating", "1")}
@@ -144,15 +145,15 @@ function Reviews({
                 </span>
               </div>
             </div>
-            <div className="flex flex-col text-3xl items-center gap-2 w-1/2 py-1 pr-3 text-primary-600">
+            <div className="flex flex-col text-3xl items-center gap-2 basis-1/2 py-1 pr-3 text-primary-600">
               {ratingsCount.map((rating) => (
                 <span key={rating[0]}>{rating[1]}</span>
               ))}
             </div>
           </div>
-          <div className="w-1/2 text-right text-[40px] font-bold tracking-widest flex items-center justify-end">
+          <div className="w-1/2 text-right text-4xl font-bold tracking-widest flex items-center justify-end md:text-3xl">
             <span>{averageRating}/5</span>
-            <span className="text-secondary-500 text-5xl">
+            <span className="text-secondary-500 text-5xl md:text-4xl">
               <TiStar />
             </span>
           </div>
@@ -206,7 +207,7 @@ function Reviews({
               {review.createdAt.split("T")[0]}
             </span>
           </header>
-          <div className="text-justify pb-2 pt-2 font-light">
+          <div className="text-justify pb-2 pt-2 font-light md:font-normal md:text-lg">
             <TextExpander collapsedNumWords={50}>{review.comment}</TextExpander>
             <div className="w-full flex justify-end ">
               <button className="cursor-pointer border-none text-sm tracking-wider text-red-700 font-bold opacity-0 group-hover:opacity-100 transition-all ">

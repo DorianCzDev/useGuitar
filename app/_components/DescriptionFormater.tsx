@@ -24,7 +24,7 @@ function DescriptionFormater({ description }: { description: string }) {
         return (
           <div key={paragraph}>
             <br />
-            <p>{paragraphString}</p>
+            <p className="md:text-justify">{paragraphString}</p>
             <br />
           </div>
         );

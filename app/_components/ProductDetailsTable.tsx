@@ -44,7 +44,7 @@ function ProductDetailsTable({ product }: ProductDetailsTableProps) {
   const { subcategory, inventory, category } = product;
 
   return (
-    <div className="grid grid-cols-[550px_550px] mt-10 mb-14 w-fit mx-auto">
+    <div className="grid grid-cols-[550px_550px] mt-10 mb-14 w-fit mx-auto lg:grid-cols-[1fr] lg:w-full">
       <ProductDetailsRow>
         Category
         <ProductDetailsRowValue>{subcategory}</ProductDetailsRowValue>

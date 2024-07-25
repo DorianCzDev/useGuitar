@@ -101,7 +101,7 @@ function Rating({
         );
       })}
       {ratingAverage && card === "true" ? (
-        <span className="text-base pl-2 font-bold text-neutral-300">
+        <span className="text-base mt-1 pl-1 font-bold text-neutral-300">
           {ratingAverage}
         </span>
       ) : (
@@ -110,7 +110,7 @@ function Rating({
         </span>
       )}
       {!isComment && (
-        <span className="pl-2 text-sm mt-[4px] text-primary-300">
+        <span className="pl-2 text-sm mt-2 text-primary-300">
           {numOfRatings ? `(${numOfRatings})` : "(0)"}
         </span>
       )}

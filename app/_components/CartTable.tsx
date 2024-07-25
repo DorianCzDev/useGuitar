@@ -60,14 +60,14 @@ function CartTable({ products }: ProductsFromCart) {
 
   return (
     <div>
-      <h1 className="text-5xl font-bold tracking-widest p-2 mb-10 text-neutral-400">
+      <h1 className="text-5xl font-bold tracking-widest p-2 mb-10 text-neutral-400 lg:text-center">
         Cart
       </h1>
       <article>
         {cart &&
           cart.map((product) => (
             <CartTableRow key={product._id}>
-              <div className="flex justify-center items-center bg-white mr-5">
+              <div className="flex justify-center items-center bg-white mr-5 md:hidden">
                 <Link
                   href={`/products/${product.name.replaceAll(" ", "_")}`}
                   className="flex items-center min-h-10"
@@ -115,7 +115,7 @@ export default CartTable;
 
 function CartTableRow({ children }: ChildrenOnlyProps) {
   return (
-    <div className="w-[94%] grid grid-cols-[80px_1fr_200px_120px_80px] py-6 px-2 mx-auto mb-3 rounded-2xl bg-accent-500 text-neutral-200 h-[116px]">
+    <div className="w-[94%] grid grid-cols-[80px_1fr_200px_120px_80px] py-6 px-2 mx-auto mb-3 rounded-2xl bg-accent-500 text-neutral-200 h-[116px] md:grid-cols-[35%_25%_30%_10%]">
       {children}
     </div>
   );

@@ -123,6 +123,10 @@ export async function getProductsByCategory({ searchParams, category }) {
 export async function getSingleProduct({ productName }) {
   await connectMongo();
 
+  if (productName.includes("slash")) {
+    productName = productName.replaceAll("slash", "/");
+  }
+
   let product = await Product.findOne({ name: productName }).populate({
     path: "reviews",
     select: "comment user rating",
@@ -167,4 +171,30 @@ export async function getAllDeliveries() {
   let deliveries = await Delivery.find({});
   deliveries = JSON.parse(JSON.stringify(deliveries));
   return { deliveries };
+}
+
+export async function getDiscountedProducts() {
+  await connectMongo();
+  let products = await Product.find({ discount: { $gt: 0 } })
+    .select(
+      "price discount name category _id images.imageURL noDiscountPrice averageRating numOfReviews"
+    )
+    .sort("-discount")
+    .limit(5);
+
+  products = JSON.parse(JSON.stringify(products));
+  return { products };
+}
+
+export async function getFeaturedProducts() {
+  await connectMongo();
+  let products = await Product.find({ featured: true })
+    .select(
+      "price discount name category _id images.imageURL featured noDiscountPrice averageRating numOfReviews"
+    )
+    .sort("-price")
+    .limit(10);
+
+  products = JSON.parse(JSON.stringify(products));
+  return { products };
 }

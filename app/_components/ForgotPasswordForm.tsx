@@ -37,7 +37,7 @@ function ForgotPasswordForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="py-6 px-10 w-[500px] bg-primary-950 border border-primary-700 rounded-xl"
+      className="py-6 px-10 w-[500px] bg-primary-950 border border-primary-700 rounded-xl sm:w-11/12 sm:px-4"
     >
       <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3 pb-1">
         <label className="block" htmlFor="email">

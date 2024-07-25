@@ -51,8 +51,8 @@ function UserUpdateForm({ user }: { user: {} }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)}>
-      <div className="grid grid-cols-[1fr_1fr] gap-3">
+    <form onSubmit={handleSubmit(onSubmit, onError)} className="pb-16">
+      <div className="grid grid-cols-[1fr_1fr] gap-3 md:grid-cols-[1fr]">
         <div className="grid grid-rows-[1fr_auto_16px]">
           <label
             htmlFor="firtsName"
@@ -128,7 +128,7 @@ function UserUpdateForm({ user }: { user: {} }) {
           />
         </div>
       </div>
-      <div className="grid grid-cols-[1fr_1fr] gap-3">
+      <div className="grid grid-cols-[1fr_1fr] gap-3 md:grid-cols-[1fr]">
         <div className="grid grid-rows-[1fr_auto_16px]">
           <label
             htmlFor="city"
@@ -178,7 +178,7 @@ function UserUpdateForm({ user }: { user: {} }) {
           />
         </div>
       </div>
-      <div className="grid grid-cols-[1fr_1fr] gap-3">
+      <div className="grid grid-cols-[1fr_1fr] gap-3 md:block">
         <div className="grid grid-rows-[1fr_auto_16px]">
           <label
             htmlFor="phoneNumber"
@@ -203,9 +203,9 @@ function UserUpdateForm({ user }: { user: {} }) {
             render={({ message }) => <ErrorSpan>{message}</ErrorSpan>}
           />
         </div>
-        <div className="grid grid-rows-[1fr_auto_16px]">
+        <div className="grid grid-rows-[1fr_auto_16px] ">
           <label
-            htmlFor="postCode"
+            htmlFor="country"
             {...register("country", {
               required: "This field is required",
             })}
@@ -214,7 +214,7 @@ function UserUpdateForm({ user }: { user: {} }) {
             country
           </label>
           <select
-            className=" text-lg py-2 px-2 mt-2 rounded-md font-light outline-none tracking-wider border bg-primary-900 border-primary-600"
+            className=" text-lg py-2 px-2 mt-2 rounded-md font-light outline-none tracking-wider border bg-primary-900 border-primary-600 md:px-0 md:pl-2 md:w-full"
             defaultValue={"Poland"}
             name="country"
           >

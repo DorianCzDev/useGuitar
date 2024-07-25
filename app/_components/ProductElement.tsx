@@ -23,7 +23,6 @@ type ProductElementProps = {
 
 function ProductElement({ product }: ProductElementProps) {
   const {
-    category,
     featured,
     discount,
     name,
@@ -35,11 +34,18 @@ function ProductElement({ product }: ProductElementProps) {
   }: ProducType = product;
 
   return (
-    <Link href={`/products/${name.replaceAll(" ", "_")}`} className="mb-8">
+    <Link
+      href={`${
+        !name.includes("/")
+          ? `/products/${name.replaceAll(" ", "_")}`
+          : `/products/${name.replaceAll(" ", "_").replaceAll("/", "slash")}`
+      }`}
+      className="mb-8"
+    >
       <li
         className={`grid grid-rows-[240px_1fr] border ${
           featured ? "border-secondary-600" : "border-primary-600"
-        } w-64 pb-2 h-[500px] bg-accent-500 overflow-hidden mx-1 transition-all relative ${
+        } w-[250px] pb-2 h-[500px] bg-accent-500 overflow-hidden mx-1 transition-all relative sm:min-w-full ${
           featured ? "hover:border-secondary-500" : "hover:border-primary-400"
         }`}
       >
@@ -72,11 +78,11 @@ function ProductElement({ product }: ProductElementProps) {
               </>
             )}
           </span>
-          <span className="text-lg tracking-widest my-auto mr-1 font-bold">
+          <span className=" text-left text-lg tracking-widest my-auto mr-1 font-bold">
             ${priceFormater(price)}
           </span>
           {discount > 0 && (
-            <span className=" text-lg my-auto text-red-600 mr-1 line-through">
+            <span className=" text-left text-lg my-auto text-red-600 mr-1 line-through">
               ${priceFormater(noDiscountPrice)}
             </span>
           )}

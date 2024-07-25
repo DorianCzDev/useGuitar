@@ -1,25 +1,22 @@
 "use client";
 
+import { ErrorMessage } from "@hookform/error-message";
 import { StatusCodes } from "http-status-codes";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { login } from "../_lib/actions";
-import SpinnerMini from "./SpinnerMini";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import ErrorSpan from "./ErrorSpan";
+import SpinnerMini from "./SpinnerMini";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -45,7 +42,7 @@ function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      className="py-6 px-10 w-[500px] bg-primary-950 border border-primary-700 rounded-xl"
+      className="py-6 px-10 w-[500px] bg-primary-950 border border-primary-700 rounded-xl sm:w-11/12 sm:px-4"
     >
       <div className="grid grid-rows-[1fr_auto_16px] gap-2 px-3 pt-4">
         <label className="block" htmlFor="email">

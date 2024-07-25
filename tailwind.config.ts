@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+// prettier-ignore
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,6 +9,13 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+      screens: {
+        'sm': {'max':'640px'},
+        'md': {'max':'768px'},
+        'lg': {'max':'1024px'},
+        'xl': {'max':'1280px'},
+        '2xl': {'max':'1536px'},
+      },
     extend: {
       colors: {
         primary: {
@@ -53,15 +62,3 @@ const config: Config = {
   plugins: [],
 };
 export default config;
-
-// 50: "#d1d8e6",
-// 100: "#b6c1d7",
-// 200: "#9cabc9",
-// 300: "#8295bb",
-// 400: "#677eac",
-// 500: "#536a98",
-// 600: "#44577d",
-// 700: "#364563",
-// 800: "#283349",
-// 900: "#19202e",
-// 950: "#121721",

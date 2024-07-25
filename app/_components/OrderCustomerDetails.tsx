@@ -18,7 +18,7 @@ function OrderCustomerDetails({
   type = "cart",
 }: OrderCustomerDetailsProps) {
   return (
-    <div className=" bg-accent-500 rounded-xl w-max relative py-5 px-7 group">
+    <div className=" bg-accent-500 rounded-xl w-max relative py-5 px-7 group  md:mb-5 md:w-full md:flex md:flex-col md:items-center md:text-center">
       <p className="text-lg py-2 tracking-wide">{`${user.firstName} ${user.lastName}`}</p>
       <p className="text-lg py-2 tracking-wide">{`${user.address} ${user.postCode} ${user.city} `}</p>
       <p className="text-lg py-2 tracking-wide">{`${user.phoneNumber} ${user.country} `}</p>

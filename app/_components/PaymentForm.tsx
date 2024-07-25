@@ -88,7 +88,7 @@ export default function PaymentForm({ order }: { order: {} }) {
       <form
         id="payment-form"
         onSubmit={handleSubmit}
-        className="w-[30vw] min-w-[500px] self-center rounded-md p-10 "
+        className="w-[30vw] min-w-[500px] self-center rounded-md p-10 md:min-w-[420px]"
       >
         <PaymentElement id="payment-element" options={paymentElementOptions} />
         <button
