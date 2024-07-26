@@ -8,6 +8,7 @@ import CustomError from "../_errors/index";
 import { joinAccessCookie } from "./jwt";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
+import { AccessTokenJwtPayload, RefreshTokenJwtPayload } from "../_types/types";
 
 export async function verifySession() {
   await connectMongo();
@@ -19,13 +20,17 @@ export async function verifySession() {
       payload: {
         user: { userId },
       },
-    } = jwt.verify(accessToken, process.env.JWT_SECRET);
+    } = jwt.verify(accessToken!, process.env.JWT_SECRET!) as {
+      payload: AccessTokenJwtPayload;
+    };
     const user = await User.findOne({ _id: userId }).select(
       "email isActive address city country firstName lastName phoneNumber postCode -_id"
     );
     return { status: StatusCodes.OK, user };
   }
-  const { payload } = jwt.verify(refreshToken, process.env.JWT_SECRET);
+  const { payload } = jwt.verify(refreshToken!, process.env.JWT_SECRET!) as {
+    payload: RefreshTokenJwtPayload;
+  };
   const existingToken = await Token.findOne({
     user: payload.user.userId,
     refreshToken: payload.refreshToken,

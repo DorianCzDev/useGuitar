@@ -39,7 +39,7 @@ function CartTable({ products }: ProductsFromCart) {
 
   useEffect(() => {
     dispatch(setCartAfterFetch(products));
-  }, []);
+  });
 
   const cart = useSelector(
     (state: StateCartAfterFetchType) => state.cart.cartAfterFetch

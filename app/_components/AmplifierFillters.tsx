@@ -222,7 +222,7 @@ function AmplifierFillters() {
         setIsOpen={setIsOpen}
         isOpen={isOpen.includes("effectsProcessor")}
       >
-        effect's processor
+        effect&apos;s processor
       </FilterHeader>
       <FilterList
         isOpen={isOpen.includes("effectsProcessor")}

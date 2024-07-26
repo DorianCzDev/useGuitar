@@ -21,7 +21,10 @@ function DeliveryMethod({
       <form>
         {deliveries.map(
           (delivery: { supplier: string; cost: number; time: number }) => (
-            <div className="grid grid-cols-[1fr_380px_80px] border-t border-primary-700 py-4 px-4 md:grid-cols-[35%_50%_15%]">
+            <div
+              key={delivery.supplier}
+              className="grid grid-cols-[1fr_380px_80px] border-t border-primary-700 py-4 px-4 md:grid-cols-[35%_50%_15%]"
+            >
               <div>
                 <input
                   type="radio"

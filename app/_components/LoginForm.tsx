@@ -113,7 +113,7 @@ function LoginForm() {
         </Link>
         <Link href="/sign-up">
           <div className="text-secondary-500 font-bold tracking-wider cursor-pointer">
-            If you aren't registered, please sign up.
+            If you aren&apos;t registered, please sign up.
           </div>
         </Link>
       </div>
