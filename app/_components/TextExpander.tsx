@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 function TextExpander({
   children,
@@ -7,6 +7,12 @@ function TextExpander({
   collapseButtonText = "Show More",
   expandedButtonText = "Show Less",
   expanded = false,
+}: {
+  children: ReactNode | any;
+  collapsedNumWords?: number;
+  collapseButtonText?: string;
+  expandedButtonText?: string;
+  expanded?: boolean;
 }) {
   const [isExpanded, setIsExpanded] = useState(expanded);
 

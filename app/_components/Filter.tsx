@@ -7,8 +7,8 @@ import PickupFilters from "./PickupFilters";
 import MultiEffectFilters from "./MultiEffectFilters";
 
 type FilterProps = {
-  productsBody: string[];
-  productsNeck: string[];
+  productsBody?: string[];
+  productsNeck?: string[];
 };
 
 function Filter({ productsBody, productsNeck }: FilterProps) {

@@ -2,7 +2,7 @@
 
 import { ErrorMessage } from "@hookform/error-message";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, FieldValues, useForm } from "react-hook-form";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
 import { forgotPassword } from "../_lib/actions";
@@ -18,7 +18,7 @@ function ForgotPasswordForm() {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FieldValues) {
     const { email } = data;
     startTransition(async () => {
       const { status, msg } = await forgotPassword({ email });
@@ -29,7 +29,7 @@ function ForgotPasswordForm() {
     });
   }
 
-  function onError(errors) {
+  function onError(errors: FieldErrors) {
     if (errors?.category?.message) {
       alert(errors.category.message);
     }

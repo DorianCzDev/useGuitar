@@ -15,7 +15,7 @@ function Reviews({
   averageRating,
   productId,
 }: {
-  ratingsCount: number;
+  ratingsCount: (string | number)[][];
   reviews: {
     _id: string;
     rating: number;
@@ -33,7 +33,6 @@ function Reviews({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  console.log(averageRating);
 
   function handleFilter(name: string, value: string) {
     const params = new URLSearchParams(searchParams);
@@ -45,7 +44,12 @@ function Reviews({
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
-  const reviewBody = {
+  const reviewBody: {
+    user?: string;
+    product?: string;
+    rating: any;
+    comment: string;
+  } = {
     rating: stars,
     comment: newReview,
   };
@@ -201,7 +205,7 @@ function Reviews({
         >
           <header className="flex justify-between items-center text-2xl font-bold h-10 px-3 pb-6 tracking-widest border-b border-primary-700">
             <span>
-              <Rating review="true" rate={review.rating} isComment="true" />
+              <Rating rate={review.rating} isComment="true" />
             </span>
             <span className="text-sm font-light text-neutral-700">
               {review.createdAt.split("T")[0]}

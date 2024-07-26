@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
-function useAuth({ setLoading }) {
-  const [data, setData] = useState(null);
+function useAuth({ setLoading }: { setLoading: (value: boolean) => void }) {
+  const [data, setData] = useState<{
+    status: number;
+  } | null>(null);
   useEffect(() => {
     fetch("http://localhost:3000/api/auth")
       .then((res) => res.json())

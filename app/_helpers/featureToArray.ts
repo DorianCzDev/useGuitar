@@ -1,5 +1,10 @@
-export default function featureToArray(products: {}[], feature: string) {
-  let featureArray = products.map((product) => {
+import { SingleProductType } from "../_types/types";
+
+export default function featureToArray(
+  products: SingleProductType[],
+  feature: string
+) {
+  let featureArray = products.map((product: any) => {
     return product?.[feature];
   });
 

@@ -14,6 +14,7 @@ import {
 import PlacedOrderOvierview from "./PlacedOrderOvierview";
 import PlacedOrderStatus from "./PlacedOrderStatus";
 import Spinner from "./Spinner";
+import { UserDataType } from "../_types/types";
 
 function PlacedOrder({
   order,
@@ -40,11 +41,11 @@ function PlacedOrder({
   };
 }) {
   const [isLoading, setLoading] = useState(true);
-  const data = useAuth({ setLoading });
+  const data: UserDataType | null = useAuth({ setLoading });
   const router = useRouter();
   if (isLoading) return <Spinner />;
-  if (data.status !== 200 || !data.user) {
-    return router.push("/login");
+  if (data?.status !== 200 || data?.user) {
+    router.push("/login");
   }
 
   const { orderItems } = order;

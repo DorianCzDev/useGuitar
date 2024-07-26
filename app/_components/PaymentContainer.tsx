@@ -19,7 +19,7 @@ function PaymentContainer({
   const appearance = {
     theme: "stripe",
   };
-  const options = {
+  const options: {} = {
     clientSecret,
     appearance,
   };

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import priceFormater from "../_helpers/priceFormater";
 import useAuth from "../_hooks/useAuth";
-import { ChildrenOnlyProps } from "../_types/types";
+import { ChildrenOnlyProps, UserDataType } from "../_types/types";
 import Spinner from "./Spinner";
 
 type OrderType = {
@@ -20,13 +20,13 @@ type OrderType = {
   createdAt: string;
 };
 
-function OrdersList({ orders }: { orders: [] }) {
+function OrdersList({ orders }: { orders: OrderType[] }) {
   const [isLoading, setLoading] = useState(true);
-  const data = useAuth({ setLoading });
+  const data: UserDataType | null = useAuth({ setLoading });
   const router = useRouter();
   if (isLoading) return <Spinner />;
-  if (data.status !== 200 || !data.user) {
-    return router.push("/login");
+  if (data?.status !== 200 || data?.user) {
+    router.push("/login");
   }
 
   return (

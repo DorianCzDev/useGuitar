@@ -1,7 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, FieldValue, FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { countries } from "../_helpers/countries";
@@ -9,13 +9,14 @@ import { updateUser } from "../_lib/actions";
 import Button from "./Button";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
+import { StateCart } from "../_types/types";
 
 function UserUpdateForm({ user }: { user: {} }) {
   const pathname = usePathname();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const curCart = useSelector((state) => state.cart.cart);
+  const curCart = useSelector((state: { cart: StateCart }) => state.cart.cart);
 
   const {
     register,
@@ -28,14 +29,26 @@ function UserUpdateForm({ user }: { user: {} }) {
     return reset({ ...user });
   }, [user]);
 
-  async function onSubmit(data) {
+  async function onSubmit(
+    data:
+      | {
+          firstName: string;
+          lastName: string;
+          country: string;
+          phoneNumber: string;
+          address: string;
+          postCode: string;
+          city: string;
+        }
+      | any
+  ) {
     startTransition(async () => {
       const { msg } = await updateUser(data);
       if (msg && !pathname.includes("cart")) toast.success(msg);
     });
   }
 
-  function onError(errors) {
+  function onError(errors: FieldErrors) {
     if (errors?.category?.message) {
       alert(errors.category.message);
     }

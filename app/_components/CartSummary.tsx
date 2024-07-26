@@ -3,26 +3,24 @@ import { useSelector } from "react-redux";
 import { getTotalCartPrice } from "../_utils/cartSlice";
 import priceFormater from "../_helpers/priceFormater";
 import Button from "./Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SpinnerMini from "./SpinnerMini";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Spinner from "./Spinner";
+import useAuth from "../_hooks/useAuth";
+import { UserDataType } from "../_types/types";
 
 function CartSummary() {
   const price = useSelector(getTotalCartPrice);
-  const router = useRouter();
-  const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/auth")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-
+  const data: UserDataType | null = useAuth({ setLoading });
+  if (isLoading) return <Spinner />;
+  if (data?.status !== 200 || data?.user) {
+    router.push("/login");
+  }
   return (
     <aside className="sticky w-4/5 top-56 h-[450px] mx-auto mt-8 lg:static lg:h-max">
       <h1 className="text-[40px] font-bold tracking-widest p-2 mb-3 text-neutral-300 text-center border-b border-primary-700">
@@ -39,9 +37,9 @@ function CartSummary() {
       <Button
         disabled={isLoading}
         onClick={() => {
-          const { status }: { status: number } = data;
+          const { status } = data as { status: number };
           if (status !== 401) {
-            return router.push("/cart/update-user");
+            router.push("/cart/update-user");
           } else {
             toast.error("To place an order, please log in");
             router.push("/login");

@@ -23,6 +23,7 @@ import {
   OrderSummaryTableRow,
 } from "./OrderSummaryUI";
 import SpinnerMini from "./SpinnerMini";
+import { StateCartAfterFetchType, UserDataType } from "../_types/types";
 
 type OrderSummaryProps = {
   cartProducts: [];
@@ -42,18 +43,20 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
   });
 
   const router = useRouter();
-  const cart = useSelector((state) => state.cart.cartAfterFetch);
+  const cart = useSelector(
+    (state: StateCartAfterFetchType) => state.cart.cartAfterFetch
+  );
   const totalCartPrice = useSelector(getTotalCartPrice);
 
-  const data = useAuth({ setLoading });
+  const data: UserDataType | null = useAuth({ setLoading });
   if (isLoading) return <Spinner />;
-  if (data.status !== 200 || !data.user) {
-    return router.push("/login");
+  if (data?.status !== 200 || data?.user) {
+    router.push("/login");
   }
-  const user = { ...data.user };
+  const user = { ...data?.user };
 
   if (isLoading) return <Spinner />;
-  if (!cart || cart.length === 0) return router.push("/");
+  if (!cart || cart.length === 0) router.push("/");
 
   const products = createValidProductObject(cartProducts, cart);
 
@@ -97,7 +100,7 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
       let {
         status,
         data: { order },
-      } = await createOrder({ body });
+      }: any = await createOrder({ body });
       order = JSON.parse(order);
       if (status === 201) {
         setLocalStorageItem("cart", "");

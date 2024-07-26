@@ -26,7 +26,7 @@ function AmplifierFillters() {
 
   const [isOpen, setIsOpen] = useState<string[]>(params || []);
 
-  function handleFilter(name: string, value: string) {
+  function handleFilter(name: string, value?: string) {
     const params = new URLSearchParams(searchParams);
     if (params.get(name) === value || !value) {
       params.delete(name);

@@ -3,9 +3,10 @@ import Link from "next/link";
 import { IoCartOutline } from "react-icons/io5";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { StateCart } from "../_types/types";
 
 function Menu() {
-  const curCart = useSelector((state) => state.cart.cart);
+  const curCart = useSelector((state: { cart: StateCart }) => state.cart.cart);
   let idString = "";
   curCart.map((item, index) => {
     if (index === curCart.length - 1) {

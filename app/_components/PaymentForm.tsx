@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -12,7 +12,7 @@ export default function PaymentForm({ order }: { order: {} }) {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [message, setMessage] = React.useState(null);
+  const [message, setMessage] = useState<null | string>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -29,7 +29,7 @@ export default function PaymentForm({ order }: { order: {} }) {
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
+      switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
           break;
@@ -46,7 +46,7 @@ export default function PaymentForm({ order }: { order: {} }) {
     });
   }, [stripe]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -71,7 +71,7 @@ export default function PaymentForm({ order }: { order: {} }) {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
     if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
+      setMessage(error.message!);
     } else {
       setMessage("An unexpected error occurred.");
     }
@@ -79,7 +79,7 @@ export default function PaymentForm({ order }: { order: {} }) {
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
+  const paymentElementOptions: {} = {
     layout: "tabs",
   };
 

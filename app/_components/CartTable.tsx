@@ -9,7 +9,11 @@ import {
   setCartAfterFetch,
 } from "../_utils/cartSlice";
 import Link from "next/link";
-import { ChildrenOnlyProps } from "../_types/types";
+import {
+  ChildrenOnlyProps,
+  SingleProductType,
+  StateCartAfterFetchType,
+} from "../_types/types";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import priceFormater from "../_helpers/priceFormater";
 import { MdDelete } from "react-icons/md";
@@ -37,10 +41,12 @@ function CartTable({ products }: ProductsFromCart) {
     dispatch(setCartAfterFetch(products));
   }, []);
 
-  const cart = useSelector((state) => state.cart.cartAfterFetch);
-  function handleDeleteItem(id) {
+  const cart = useSelector(
+    (state: StateCartAfterFetchType) => state.cart.cartAfterFetch
+  );
+  function handleDeleteItem(id: string) {
     const params = new URLSearchParams(searchParams);
-    if (searchParams?.get("id")?.split("-")?.length > 1) {
+    if (searchParams?.get("id")?.split("-")?.length! > 1) {
       let idArray: string | string[] | undefined = searchParams
         .get("id")
         ?.split("-");
@@ -48,7 +54,7 @@ function CartTable({ products }: ProductsFromCart) {
       idArray = idArray?.filter((idElement: string) => idElement !== id);
       idArray = idArray?.toString();
       idArray = idArray?.replaceAll(",", "-");
-      params.set("id", idArray);
+      params.set("id", idArray!);
     } else {
       params.delete("id");
     }

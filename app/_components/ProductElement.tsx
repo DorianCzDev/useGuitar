@@ -2,23 +2,10 @@ import Link from "next/link";
 import { MdOutlineDiscount } from "react-icons/md";
 import priceFormater from "@/app/_helpers/priceFormater";
 import Rating from "./Rating";
-
-type ProducType = {
-  category: string;
-  featured: string;
-  discount: number;
-  name: string;
-  averageRating: number;
-  images: {
-    imageURL: string;
-  }[];
-  price: number;
-  numOfReviews: number;
-  noDiscountPrice: number;
-};
+import { SingleProductType } from "../_types/types";
 
 type ProductElementProps = {
-  product: ProducType;
+  product: SingleProductType;
 };
 
 function ProductElement({ product }: ProductElementProps) {
@@ -31,7 +18,7 @@ function ProductElement({ product }: ProductElementProps) {
     price,
     numOfReviews,
     noDiscountPrice,
-  }: ProducType = product;
+  }: SingleProductType = product;
 
   return (
     <Link

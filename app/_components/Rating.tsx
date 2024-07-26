@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TiStar } from "react-icons/ti";
 
 type RatingProps = {
   editable?: string;
-  rate?: number;
-  ratingAverage?: number;
-  setStars?: number;
+  rate?: any;
+  ratingAverage?: any;
   card?: string;
   numOfRatings?: number;
   isComment?: string;
+  setStars?: Dispatch<SetStateAction<number>> | any;
 };
 
 function Rating({
@@ -24,8 +24,8 @@ function Rating({
     ? Math.round(ratingAverage)
     : null;
 
-  const [rating, setRating] = useState(null);
-  const [hover, setHover] = useState(null);
+  const [rating, setRating] = useState<number | null | any>(null);
+  const [hover, setHover] = useState<number | null>(null);
   const totalStars = 5;
 
   useEffect(() => {
@@ -59,10 +59,10 @@ function Rating({
                         ? "text-secondary-500"
                         : "text-neutral-700"
                     }`}
-                    rating={rating}
-                    currentrating={currentrating}
-                    hover={hover}
-                    card={card}
+                    // rating={rating}
+                    // currentrating={currentrating}
+                    // hover={hover}
+                    // card={card}
                     onMouseEnter={() => setHover(currentrating)}
                     onMouseLeave={() => setHover(null)}
                   >
@@ -86,10 +86,10 @@ function Rating({
                         ? "text-secondary-500"
                         : "text-neutral-700"
                     }`}
-                    rating={rating}
-                    currentrating={currentrating}
-                    card={card}
-                    hover={hover}
+                    // rating={rating}
+                    // currentrating={currentrating}
+                    // card={card}
+                    // hover={hover}
                   >
                     {" "}
                     <TiStar />

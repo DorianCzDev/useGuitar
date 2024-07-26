@@ -6,11 +6,10 @@ export function createValidProductObject(
     price: number;
     _id: string;
   }[],
-  cart: []
+  cart: { quantity: number }[]
 ) {
   let products: {
     category: string;
-    imageURL: string;
     name: string;
     price: number;
     _id: string;

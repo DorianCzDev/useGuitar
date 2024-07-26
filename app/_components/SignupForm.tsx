@@ -2,12 +2,12 @@
 
 import { ErrorMessage } from "@hookform/error-message";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import ErrorSpan from "./ErrorSpan";
-import { useTransition } from "react";
-import { signUp } from "../_lib/actions";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { FieldErrors, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { signUp } from "../_lib/actions";
+import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
 
 function SignupForm() {
@@ -19,7 +19,7 @@ function SignupForm() {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
+  async function onSubmit(data: any) {
     if (data.password !== data.confirmPassword) {
       return toast.error("Passwords doesn't match.");
     }
@@ -34,7 +34,7 @@ function SignupForm() {
     });
   }
 
-  function onError(errors) {
+  function onError(errors: FieldErrors) {
     if (errors?.category?.message) {
       alert(errors.category.message);
     }

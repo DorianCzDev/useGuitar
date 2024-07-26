@@ -2,6 +2,10 @@ import connectMongo from "@/app/_lib/connectDB";
 import { joinAccessCookie } from "@/app/_lib/jwt";
 import Token from "@/app/_models/Token";
 import User from "@/app/_models/User";
+import {
+  AccessTokenJwtPayload,
+  RefreshTokenJwtPayload,
+} from "@/app/_types/types";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -23,7 +27,10 @@ export async function GET(req: NextRequest) {
     if (accessToken) {
       const {
         user: { userId },
-      } = jwt.verify(accessToken, process.env.JWT_SECRET);
+      } = jwt.verify(
+        accessToken,
+        process.env.JWT_SECRET!
+      ) as AccessTokenJwtPayload;
       const user = await User.findOne({ _id: userId }).select(
         "email isActive address city country firstName lastName phoneNumber postCode -_id"
       );
@@ -37,7 +44,10 @@ export async function GET(req: NextRequest) {
       }
       return NextResponse.json({ user, status: StatusCodes.OK });
     }
-    const payload = jwt.verify(refreshToken, process.env.JWT_SECRET);
+    const payload = jwt.verify(
+      refreshToken!,
+      process.env.JWT_SECRET!
+    ) as RefreshTokenJwtPayload;
     const existingToken = await Token.findOne({
       user: payload.user.userId,
       refreshToken: payload.refreshToken,

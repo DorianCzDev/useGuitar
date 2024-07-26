@@ -1,7 +1,7 @@
 "use client";
 import { ErrorMessage } from "@hookform/error-message";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, FieldValues, useForm } from "react-hook-form";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
 import toast from "react-hot-toast";
@@ -23,7 +23,7 @@ function ResetPasswordForm({
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FieldValues) {
     const { password, confirmPassword } = data;
     if (password !== confirmPassword) {
       return toast.error("Passwords doesn't match.");
@@ -41,7 +41,7 @@ function ResetPasswordForm({
     });
   }
 
-  function onError(errors) {
+  function onError(errors: FieldErrors) {
     if (errors?.category?.message) {
       alert(errors.category.message);
     }

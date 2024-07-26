@@ -1,20 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import useAuth from "../_hooks/useAuth";
 import Spinner from "./Spinner";
 import UserUpdateForm from "./UserUpdateForm";
-import { useRouter } from "next/navigation";
-import useAuth from "../_hooks/useAuth";
+import { UserDataType } from "../_types/types";
 
 function UserUpdate() {
   const [isLoading, setLoading] = useState(true);
-  const data = useAuth({ setLoading });
+  const data: UserDataType | null = useAuth({ setLoading });
   const router = useRouter();
   if (isLoading) return <Spinner />;
-  if (data.status !== 200 || !data.user) {
-    return router.push("/login");
+  if (data?.status !== 200 || data?.user) {
+    router.push("/login");
   }
-  const user = { ...data.user };
+  const user = { ...data?.user };
   return (
     <div>
       <UserUpdateForm user={user} />

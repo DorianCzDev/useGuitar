@@ -2,13 +2,13 @@ import Link from "next/link";
 
 type OrderCustomerDetailsProps = {
   user: {
-    firstName: string;
-    lastName: string;
-    address: string;
-    postCode: string;
-    city: string;
-    phoneNumber: string;
-    country: string;
+    firstName?: string;
+    lastName?: string;
+    address?: string;
+    postCode?: string;
+    city?: string;
+    phoneNumber?: string;
+    country?: string;
   };
   type?: "cart" | "order";
 };

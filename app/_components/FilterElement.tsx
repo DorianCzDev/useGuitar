@@ -8,8 +8,8 @@ type FilterListProps = {
   inputIcon?: ReactNode;
   elementType: "list" | "boolean" | "input";
   queryName: string;
-  queryValue?: string | null;
-  onFilter: (queryName: string, queryValue: string) => void;
+  queryValue?: string;
+  onFilter: (queryName: string, queryValue?: string) => void;
 };
 function FilterElement({
   children,

@@ -1,11 +1,11 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 type PaginationProps = {
   productsCount: number;
-  currPage: number | string;
-  setCurrPage: () => void;
+  currPage: any;
+  setCurrPage: Dispatch<SetStateAction<number>>;
 };
 
 function Pagination({ productsCount, currPage, setCurrPage }: PaginationProps) {

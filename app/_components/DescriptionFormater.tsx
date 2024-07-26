@@ -1,6 +1,6 @@
 function DescriptionFormater({ description }: { description: string }) {
   const wordsArray = description.split(" ");
-  let text: string[] | string = [];
+  let text: (string[] | [])[] = [];
   let paragraphArray: string[] | string = [];
   let counter = 0;
   for (const word of wordsArray) {
@@ -22,7 +22,7 @@ function DescriptionFormater({ description }: { description: string }) {
         paragraphString = paragraphString.replaceAll(",", " ");
         paragraphString = paragraphString.replaceAll("  ", " ");
         return (
-          <div key={paragraph}>
+          <div key={paragraphString}>
             <br />
             <p className="md:text-justify">{paragraphString}</p>
             <br />

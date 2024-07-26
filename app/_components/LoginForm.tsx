@@ -5,7 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { login } from "../_lib/actions";
 import ErrorSpan from "./ErrorSpan";
@@ -20,7 +20,7 @@ function LoginForm() {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FieldValues) {
     const { email, password } = data;
     startTransition(async () => {
       const { status, msg } = await login({ email, password });
@@ -33,7 +33,7 @@ function LoginForm() {
     });
   }
 
-  function onError(errors) {
+  function onError(errors: FieldErrors) {
     if (errors?.category?.message) {
       alert(errors.category.message);
     }

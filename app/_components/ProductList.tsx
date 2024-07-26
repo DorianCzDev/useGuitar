@@ -1,13 +1,9 @@
 "use client";
 
+import { SingleProductType } from "../_types/types";
 import ProductElement from "./ProductElement";
 
-type ProductsProps = {
-  products: [];
-  productsCount: number;
-};
-
-function ProductList({ products }: ProductsProps) {
+function ProductList({ products }: { products: SingleProductType[] }) {
   return (
     <>
       <ul className="pt-4 pl-12 flex flex-wrap list-none md:justify-center">

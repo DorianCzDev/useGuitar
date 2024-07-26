@@ -6,7 +6,7 @@ type DeliveryMethodProps = {
     cost: number;
     time: number;
   }[];
-  setDeliveryDetails: ({}) => void;
+  setDeliveryDetails: ({}: { supplier: string; cost: number }) => void;
 };
 
 function DeliveryMethod({

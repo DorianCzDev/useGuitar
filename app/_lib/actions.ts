@@ -17,6 +17,7 @@ import Review from "../_models/Review";
 import { revalidatePath } from "next/cache";
 import sendVerificationEmail from "../_utils/sendVerificationEmail";
 import sendResetPasswordEmail from "../_utils/sendResetPasswordEmail";
+import { AccessTokenJwtPayload } from "../_types/types";
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 export async function login({
@@ -103,7 +104,10 @@ export async function updateUser(data: {
   const accessToken = cookies().get("accessToken")?.value;
   const {
     user: { userId },
-  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+  } = jwt.verify(
+    accessToken!,
+    process.env.JWT_SECRET!
+  ) as AccessTokenJwtPayload;
 
   if (!userId) {
     cookies().delete("accessToken");
@@ -153,17 +157,17 @@ export async function createOrder({
     cost: number;
     clientProducts: {
       product: string;
-      quantity: string;
+      quantity: number;
     }[];
     totalPrice: number;
-    firstName: string;
-    lastName: string;
-    country: string;
-    phoneNumber: string;
-    address: string;
-    postCode: string;
-    city: string;
-    email: string;
+    firstName?: string;
+    lastName?: string;
+    country?: string;
+    phoneNumber?: string;
+    address?: string;
+    postCode?: string;
+    city?: string;
+    email?: string;
   };
 }) {
   await connectMongo();
@@ -171,7 +175,10 @@ export async function createOrder({
   const accessToken = cookies().get("accessToken")?.value;
   const {
     user: { userId },
-  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+  } = jwt.verify(
+    accessToken!,
+    process.env.JWT_SECRET!
+  ) as AccessTokenJwtPayload;
 
   if (!userId) {
     cookies().delete("accessToken");
@@ -201,7 +208,7 @@ export async function createOrder({
     product: {
       price: number;
     };
-    quantity: string | number;
+    quantity: any;
   }[] = [];
 
   for (const clientProduct of clientProducts) {
@@ -268,15 +275,20 @@ export async function createReview({
 }: {
   productId: string;
   reviewBody: {
-    user: string;
-    product: string;
+    user?: string;
+    product?: string;
+    rating: any;
+    comment: string;
   };
 }) {
   await connectMongo();
   const accessToken = cookies().get("accessToken")?.value;
   const {
     user: { userId },
-  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+  } = jwt.verify(
+    accessToken!,
+    process.env.JWT_SECRET!
+  ) as AccessTokenJwtPayload;
 
   if (!userId) {
     cookies().delete("accessToken");
@@ -315,7 +327,7 @@ export async function createReview({
   return { status: StatusCodes.CREATED, msg: "Review added" };
 }
 
-export async function signUp(data) {
+export async function signUp(data: { email: string; password: string }) {
   await connectMongo();
   const { email, password } = data;
   if (!email || !password) {
@@ -354,6 +366,7 @@ export async function verifyEmail({
   );
   if (!user) {
     return {
+      msg: "Something went wrong, please try again later.",
       status: StatusCodes.UNAUTHORIZED,
     };
   }
@@ -447,12 +460,16 @@ export async function updateUserPassword({
   const accessToken = cookies().get("accessToken")?.value;
   const {
     user: { userId },
-  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+  } = jwt.verify(
+    accessToken!,
+    process.env.JWT_SECRET!
+  ) as AccessTokenJwtPayload;
 
   if (!userId) {
     cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
+      msg: "Something went wrong, please try again later.",
       status: StatusCodes.UNAUTHORIZED,
     };
   }
@@ -480,7 +497,10 @@ export async function logout() {
   const accessToken = cookies().get("accessToken")?.value;
   const {
     user: { userId },
-  } = jwt.verify(accessToken, process.env.JWT_SECRET);
+  } = jwt.verify(
+    accessToken!,
+    process.env.JWT_SECRET!
+  ) as AccessTokenJwtPayload;
   cookies().delete("accessToken");
   cookies().delete("refreshToken");
 

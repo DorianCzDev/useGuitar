@@ -10,8 +10,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 type GuitarFiltersProps = {
-  productsBody: string[];
-  productsNeck: string[];
+  productsBody?: string[];
+  productsNeck?: string[];
 };
 
 function GuitarFilters({ productsBody, productsNeck }: GuitarFiltersProps) {
@@ -30,7 +30,7 @@ function GuitarFilters({ productsBody, productsNeck }: GuitarFiltersProps) {
 
   const [isOpen, setIsOpen] = useState<string[]>(params || []);
 
-  function handleFilter(name: string, value: string) {
+  function handleFilter(name: string, value?: string) {
     const params = new URLSearchParams(searchParams);
     if (params.get(name) === value || !value) {
       params.delete(name);
