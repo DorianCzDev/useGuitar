@@ -1,14 +1,14 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { useState } from "react";
-import FilterHeader from "./FilterHeader";
-import { FaRegSquarePlus } from "react-icons/fa6";
 import { FaRegMinusSquare } from "react-icons/fa";
-import FilterList from "./FilterList";
-import FilterElement from "./FilterElement";
+import { FaRegSquarePlus } from "react-icons/fa6";
+import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { IoMdCheckbox } from "react-icons/io";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import FilterElement from "./FilterElement";
+import FilterHeader from "./FilterHeader";
+import FilterList from "./FilterList";
 
 function AmplifierFillters() {
   const searchParams = useSearchParams();

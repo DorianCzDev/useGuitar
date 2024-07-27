@@ -1,23 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useEffect } from "react";
+import { FaMinus, FaPlus } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import priceFormater from "../_helpers/priceFormater";
+import { ChildrenOnlyProps, StateCartAfterFetchType } from "../_types/types";
 import {
   decreaseItemQuantity,
   deleteItem,
   increaseItemQuantity,
   setCartAfterFetch,
 } from "../_utils/cartSlice";
-import Link from "next/link";
-import {
-  ChildrenOnlyProps,
-  SingleProductType,
-  StateCartAfterFetchType,
-} from "../_types/types";
-import { FaMinus, FaPlus } from "react-icons/fa6";
-import priceFormater from "../_helpers/priceFormater";
-import { MdDelete } from "react-icons/md";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type ProductsFromCart = {
   products: [

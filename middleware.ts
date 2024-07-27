@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
   if (refreshToken || accessToken) {
     return NextResponse.next();
   } else
-    return NextResponse.redirect(new URL("login", "http://localhost:3000/"));
+    return NextResponse.redirect(new URL("login", process.env.NEXT_PUBLIC_URL));
 }
 
 export const config = {

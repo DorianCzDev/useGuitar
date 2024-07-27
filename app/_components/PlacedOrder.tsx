@@ -44,7 +44,7 @@ function PlacedOrder({
   const data: UserDataType | null = useAuth({ setLoading });
   const router = useRouter();
   if (isLoading) return <Spinner />;
-  if (data?.status !== 200 || data?.user) {
+  if (data?.status !== 200 || !data?.user) {
     router.push("/login");
   }
 

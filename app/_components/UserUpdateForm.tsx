@@ -1,15 +1,15 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
-import { FieldErrors, FieldValue, FieldValues, useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { countries } from "../_helpers/countries";
 import { updateUser } from "../_lib/actions";
+import { StateCart } from "../_types/types";
 import Button from "./Button";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
-import { StateCart } from "../_types/types";
 
 function UserUpdateForm({ user }: { user: {} }) {
   const pathname = usePathname();
