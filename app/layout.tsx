@@ -4,6 +4,7 @@ import { ChildrenOnlyProps } from "@/app/_types/types";
 import { Toaster } from "react-hot-toast";
 
 import ReduxProvider from "@/app/_components/ReduxProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const lato = Lato({
   weight: ["300", "400", "700"],
@@ -49,6 +50,7 @@ function RootLayout({ children }: ChildrenOnlyProps) {
         <ReduxProvider>
           <div>{children}</div>
         </ReduxProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
