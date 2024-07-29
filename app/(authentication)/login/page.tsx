@@ -1,6 +1,10 @@
 import LoginForm from "@/app/_components/LoginForm";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Login",
+};
+
 function Page() {
   return (
     <div className="flex items-center flex-col h-full">

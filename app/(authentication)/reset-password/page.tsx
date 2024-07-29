@@ -1,6 +1,10 @@
 import ResetPasswordForm from "@/app/_components/ResetPasswordForm";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Reset password",
+};
+
 function Page({
   searchParams,
 }: {

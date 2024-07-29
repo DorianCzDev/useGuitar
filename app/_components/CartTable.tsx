@@ -35,11 +35,12 @@ function CartTable({ products }: ProductsFromCart) {
 
   useEffect(() => {
     dispatch(setCartAfterFetch(products));
-  });
+  }, []);
 
   const cart = useSelector(
     (state: StateCartAfterFetchType) => state.cart.cartAfterFetch
   );
+
   function handleDeleteItem(id: string) {
     const params = new URLSearchParams(searchParams);
     if (searchParams?.get("id")?.split("-")?.length! > 1) {

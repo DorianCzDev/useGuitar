@@ -1,6 +1,10 @@
 import SignupForm from "@/app/_components/SignupForm";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Sign up",
+};
+
 function Page() {
   return (
     <div className="flex items-center flex-col h-full">

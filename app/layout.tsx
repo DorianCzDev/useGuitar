@@ -11,6 +11,15 @@ const lato = Lato({
   display: "swap",
 });
 
+export const metadata = {
+  title: {
+    template: "%s | useGuitar",
+    default: "Home | useGuitar",
+  },
+  description:
+    "useGuitar online music shop. Bass, guitars, amplifiers, multi effects, pickups and more!",
+};
+
 function RootLayout({ children }: ChildrenOnlyProps) {
   return (
     <html>

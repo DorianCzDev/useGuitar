@@ -1,6 +1,10 @@
 import ForgotPasswordForm from "@/app/_components/ForgotPasswordForm";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Forgot Password",
+};
+
 function Page() {
   return (
     <div className="flex items-center flex-col h-full">

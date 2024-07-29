@@ -3,6 +3,10 @@ import CartTable from "@/app/_components/CartTable";
 import EmptyCart from "@/app/_components/EmptyCart";
 import { getProductsFromCart } from "@/app/_lib/productsController";
 
+export const metadata = {
+  title: "Cart",
+};
+
 async function Page({ searchParams }: { searchParams: { id: string } }) {
   const { id } = searchParams;
 

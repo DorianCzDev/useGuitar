@@ -10,6 +10,19 @@ import ProductDetailsTable from "@/app/_components/ProductDetailsTable";
 import ProductDetailsDescription from "@/app/_components/ProductDetailsDescription";
 import Reviews from "@/app/_components/Reviews";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    productName: string;
+  };
+}) {
+  const { productName } = params;
+  return {
+    title: productName.toUpperCase(),
+  };
+}
+
 async function Page({
   params,
   searchParams,

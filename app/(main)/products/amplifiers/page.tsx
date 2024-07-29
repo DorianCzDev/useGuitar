@@ -4,6 +4,10 @@ import { getProductsByCategory } from "@/app/_lib/productsController";
 import { PageSearchParamsProps } from "@/app/_types/types";
 import { Suspense } from "react";
 
+export const metadata = {
+  title: "Amplifiers",
+};
+
 async function Page({ searchParams }: PageSearchParamsProps) {
   const category = "amplifier";
   const { products, productsCount } = await getProductsByCategory({

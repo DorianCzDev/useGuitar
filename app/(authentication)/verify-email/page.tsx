@@ -1,5 +1,9 @@
 import VerifyEmail from "@/app/_components/VerifyEmail";
 
+export const metadata = {
+  title: "Verify email",
+};
+
 function Page({
   searchParams,
 }: {

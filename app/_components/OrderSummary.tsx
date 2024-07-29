@@ -50,13 +50,16 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
 
   const data: UserDataType | null = useAuth({ setLoading });
   if (isLoading) return <Spinner />;
-  if (data?.status !== 200 || data?.user) {
+  if (data?.status !== 200 || !data?.user) {
     router.push("/login");
   }
   const user = { ...data?.user };
 
   if (isLoading) return <Spinner />;
-  if (!cart || cart.length === 0) router.push("/");
+  if (!cart || cart.length === 0) {
+    router.push("/");
+    return <></>;
+  }
 
   const products = createValidProductObject(cartProducts, cart);
 
