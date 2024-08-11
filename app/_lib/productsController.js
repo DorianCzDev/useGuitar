@@ -14,6 +14,11 @@ export async function getProductsByCategory({ searchParams, category }) {
   let queryFilters = [];
 
   queryEntries.map((arrayEl) => {
+    if (arrayEl[1].includes("true")) {
+      arrayEl[1] = true;
+    } else if (arrayEl[1].includes("false")) {
+      arrayEl[1] = false;
+    }
     if (arrayEl[0].includes("min") || arrayEl[0].includes("max")) {
       if (arrayEl[0].includes("price")) {
         arrayEl[1] = arrayEl[1] * 100;

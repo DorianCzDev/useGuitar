@@ -1,7 +1,5 @@
 import MainNavLink from "./MainNavLink";
 
-export const dynamic = "force-static";
-
 async function MainNavigation() {
   return (
     <nav>
