@@ -30,7 +30,7 @@ export function OrderSummaryTableRow({ children }: ChildrenOnlyProps) {
 
 export function OrderSummaryTableFooter({ children }: ChildrenOnlyProps) {
   return (
-    <div className="flex justify-end items-center pr-10 border-l border-r border-b rounded-b-xl h-[60px] min-h-[60px] w-full border-primary-700 md:h-max">
+    <div className="flex justify-end items-center pr-10 border-l border-r border-b rounded-b-lg h-[60px] min-h-[60px] w-full border-primary-700 md:h-max">
       {children}
     </div>
   );

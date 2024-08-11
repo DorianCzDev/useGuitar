@@ -87,7 +87,7 @@ function PlacedOrder({
             Total price (with delivery cost):
           </span>
           <span className="my-auto px-6 font-light text-lg pr-6">
-            {priceFormater(order.total)}
+            {priceFormater(order.total)} $
           </span>
         </OrderSummaryTableFooter>
       </div>

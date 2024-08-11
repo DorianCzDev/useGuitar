@@ -1,9 +1,8 @@
-import CustomError from "../_errors/index";
-import connectMongo from "./connectDB";
 import jwt from "jsonwebtoken";
-import Order from "../_models/Order";
 import { cookies } from "next/headers";
-import { StatusCodes } from "http-status-codes";
+import CustomError from "../_errors/index";
+import Order from "../_models/Order";
+import connectMongo from "./connectDB";
 
 export async function getOrder(orderId) {
   await connectMongo();

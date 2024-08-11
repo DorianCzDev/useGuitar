@@ -219,9 +219,6 @@ function UserUpdateForm({ user }: { user: {} }) {
         <div className="grid grid-rows-[1fr_auto_16px] ">
           <label
             htmlFor="country"
-            {...register("country", {
-              required: "This field is required",
-            })}
             className="mt-2 pb-1 pl-1 font-light tracking-wider text-neutral-400 border-b border-primary-700"
           >
             country
@@ -229,7 +226,9 @@ function UserUpdateForm({ user }: { user: {} }) {
           <select
             className=" text-lg py-2 px-2 mt-2 rounded-md font-light outline-none tracking-wider border bg-primary-900 border-primary-600 md:px-0 md:pl-2 md:w-full"
             defaultValue={"Poland"}
-            name="country"
+            {...register("country", {
+              required: "This field is required",
+            })}
           >
             {countries.map((country) => (
               <option value={country} key={country}>

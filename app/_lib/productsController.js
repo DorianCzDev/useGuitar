@@ -5,13 +5,6 @@ import Delivery from "@/app/_models/Delivery";
 import featureToArray from "@/app/_helpers/featureToArray";
 import CustomError from "@/app/_errors/index";
 
-export async function getProducts() {
-  await connectMongo();
-  const products = await Product.find({});
-
-  return products;
-}
-
 export async function getProductsByCategory({ searchParams, category }) {
   await connectMongo();
 

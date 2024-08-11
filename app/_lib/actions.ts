@@ -361,6 +361,7 @@ export async function verifyEmail({
   email: string;
   verificationToken: string;
 }) {
+  await connectMongo();
   const user = await User.findOne({ email, verificationToken }).select(
     "isVerified verificationToken"
   );
