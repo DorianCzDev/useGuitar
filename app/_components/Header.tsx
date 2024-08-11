@@ -6,6 +6,13 @@ const DynamicMenu = dynamic(() => import("@/app/_components/Menu"), {
   ssr: false,
 });
 
+const DynamicMainNavigation = dynamic(
+  () => import("@/app/_components/MainNavigation"),
+  {
+    ssr: false,
+  }
+);
+
 function Header() {
   return (
     <header className="w-full py-2 grid grid-rows-[1fr_auto] h-64 xl:w-full  sm:grid-rows-[100px_auto] md:h-auto ">
@@ -13,7 +20,7 @@ function Header() {
         <DynamicMenu />
       </div>
       <div className="w-full border-t border-t-primary-700">
-        <MainNavigation />
+        <DynamicMainNavigation />
       </div>
     </header>
   );
