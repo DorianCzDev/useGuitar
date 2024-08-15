@@ -34,7 +34,7 @@ function TextExpander({
     <>
       {isExpanded ? children : childrenCollapse()}
       <p
-        className="border-t border-primary-700 w-fit outline-none cursor-pointer text-secondary-500 transition-all my-4 py-1"
+        className="border-t border-primary-700 w-fit outline-none cursor-pointer text-secondary-500 transition-all mt-4 py-1"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {isExpanded ? expandedButtonText : collapseButtonText}

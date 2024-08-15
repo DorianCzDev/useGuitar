@@ -515,3 +515,14 @@ export async function logout() {
 
   return { status: StatusCodes.OK, msg: "You logged out" };
 }
+
+export async function reportReview(id: string) {
+  await connectMongo();
+
+  const review = await Review.findOne({ _id: id });
+
+  review.isReported = true;
+  await review.save();
+
+  return { msg: "Review reported.", status: StatusCodes.OK };
+}

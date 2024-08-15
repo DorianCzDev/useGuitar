@@ -6,7 +6,7 @@ import { TiStar } from "react-icons/ti";
 import toast from "react-hot-toast";
 import Rating from "./Rating";
 import TextExpander from "./TextExpander";
-import { createReview } from "../_lib/actions";
+import { createReview, reportReview } from "../_lib/actions";
 import SpinnerMini from "./SpinnerMini";
 
 function Reviews({
@@ -60,6 +60,7 @@ function Reviews({
     startTransition(async () => {
       const { status } = await createReview({ productId, reviewBody });
       if (status === 201) {
+        toast.success("Review added.");
         setIsWriting(false);
         setStars(null);
         setNewReview("");
@@ -214,7 +215,13 @@ function Reviews({
           <div className="text-justify pb-2 pt-2 font-light md:font-normal md:text-lg">
             <TextExpander collapsedNumWords={50}>{review.comment}</TextExpander>
             <div className="w-full flex justify-end ">
-              <button className="cursor-pointer border-none text-sm tracking-wider text-red-700 font-bold opacity-0 group-hover:opacity-100 transition-all ">
+              <button
+                onClick={async () => {
+                  const { msg } = await reportReview(review._id);
+                  toast.success(msg);
+                }}
+                className="cursor-pointer border-none text-sm tracking-wider text-red-700 font-bold opacity-0 group-hover:opacity-100 transition-all "
+              >
                 report
               </button>
             </div>
