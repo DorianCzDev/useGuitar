@@ -48,7 +48,9 @@ ReviewSchema.statics.calculateAvarageRating = async function (productId) {
     await this.model("Product").findOneAndUpdate(
       { _id: productId },
       {
-        averageRating: result[0]?.averageRating.toFixed(2) || 0,
+        averageRating: !result[0].averageRating.toString().split(".")[1]
+          ? result[0]?.averageRating
+          : result[0]?.averageRating.toFixed(2) || 0,
         numOfReviews: result[0]?.numOfReviews || 0,
       }
     );
@@ -58,10 +60,6 @@ ReviewSchema.statics.calculateAvarageRating = async function (productId) {
 };
 
 ReviewSchema.post("save", async function () {
-  await this.constructor.calculateAvarageRating(this.product);
-});
-
-ReviewSchema.post("remove", async function () {
   await this.constructor.calculateAvarageRating(this.product);
 });
 

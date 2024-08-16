@@ -15,7 +15,11 @@ function Pagination({ productsCount, currPage, setCurrPage }: PaginationProps) {
   const params = new URLSearchParams(searchParams);
 
   const limit = 12;
-  const pagesCount = Math.floor(productsCount / limit + 1);
+  const pagesCount = Math.floor(
+    productsCount % limit === 0
+      ? productsCount / limit
+      : productsCount / limit + 1
+  );
   const pagesArray = [];
 
   for (let i = 1; i <= pagesCount; i++) {
