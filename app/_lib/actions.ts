@@ -214,21 +214,36 @@ export async function createOrder({
   for (const clientProduct of clientProducts) {
     const product = await Product.findOne({ _id: clientProduct.product });
     if (!product) {
-      throw new CustomError.NotFoundError(
-        `No product with id: ${clientProduct.product}`
-      );
+      return {
+        data: {
+          status: StatusCodes.NOT_FOUND,
+          msg: `No product with id: ${clientProduct.product}`,
+        },
+      };
+    }
+    if (product.inventory - clientProduct.quantity < 0) {
+      return {
+        data: {
+          status: StatusCodes.BAD_REQUEST,
+          msg: `You are trying order more of ${product.name} than we have. Please try order smaller amount of this product.`,
+        },
+      };
     }
     orderItems = [...orderItems, { product, quantity: clientProduct.quantity }];
   }
+
   const delivery = await Delivery.findOne({
     supplier: deliverySupplier,
     cost: deliveryCost,
   });
 
   if (!delivery || delivery.length === 0) {
-    throw new CustomError.NotFoundError(
-      `No delivery method for ${deliverySupplier}`
-    );
+    return {
+      data: {
+        status: StatusCodes.NOT_FOUND,
+        msg: `No delivery method for ${deliverySupplier}`,
+      },
+    };
   }
 
   let serverTotalPrice = delivery.cost;
@@ -238,7 +253,23 @@ export async function createOrder({
   );
 
   if (serverTotalPrice !== clientTotalPrice) {
-    throw new CustomError.BadRequestError("Please place the order again");
+    return {
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: `Something went wrong. Please place the order again`,
+      },
+    };
+  }
+
+  for (const clientProduct of clientProducts) {
+    const product = await Product.findOne({
+      _id: clientProduct.product,
+    });
+    const currentInventory = product.inventory;
+    const result = await Product.findOneAndUpdate(
+      { _id: clientProduct.product },
+      { inventory: currentInventory - clientProduct.quantity }
+    );
   }
 
   const paymentIntent = await stripe.paymentIntents.create({
@@ -266,7 +297,7 @@ export async function createOrder({
 
   order = JSON.stringify(order);
 
-  return { status: StatusCodes.CREATED, data: { order } };
+  return { data: { order, status: StatusCodes.CREATED } };
 }
 
 export async function createReview({

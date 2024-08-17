@@ -6,6 +6,8 @@ import {
   getFeaturedProducts,
 } from "./_lib/productsController";
 
+export const revalidate = 60;
+
 async function Page() {
   const { products: discountedProducts } = await getDiscountedProducts();
   const { products: featuredProducts } = await getFeaturedProducts();

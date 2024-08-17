@@ -12,7 +12,7 @@ function Home({
 }) {
   return (
     <main className="w-[1300px] mx-auto xl:w-full xl:px-10">
-      <h1 className="text-4xl font-bold tracking-widest p-2 mb-10 text-left">
+      <h1 className="text-4xl font-bold tracking-widest p-2 mb-10 text-left md:text-center">
         Best Deals
       </h1>
       <ul className="list-none flex flex-wrap sm:mx-auto sm:justify-center">
@@ -21,7 +21,7 @@ function Home({
         ))}
       </ul>
 
-      <h1 className="text-4xl font-bold tracking-widest p-2 mb-10 text-left">
+      <h1 className="text-4xl font-bold tracking-widest p-2 mb-10 text-left md:text-center">
         We Recomended
       </h1>
       <ul className="list-none flex flex-wrap sm:mx-auto sm:justify-center">

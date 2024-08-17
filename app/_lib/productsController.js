@@ -72,6 +72,10 @@ export async function getProductsByCategory({ searchParams, category }) {
     }
   });
 
+  filtersObject.inventory = {
+    $gte: 1,
+  };
+
   const queryObjectFromArray = Object.fromEntries(queryArray);
 
   let queryObject = { ...queryObjectFromArray, ...filtersObject, category };

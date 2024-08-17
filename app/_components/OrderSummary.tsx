@@ -24,6 +24,7 @@ import {
 } from "./OrderSummaryUI";
 import SpinnerMini from "./SpinnerMini";
 import { StateCartAfterFetchType, UserDataType } from "../_types/types";
+import toast from "react-hot-toast";
 
 type OrderSummaryProps = {
   cartProducts: [];
@@ -100,14 +101,14 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
     };
 
     startTransition(async () => {
-      let {
-        status,
-        data: { order },
-      }: any = await createOrder({ body });
-      order = JSON.parse(order);
-      if (status === 201) {
+      let { data }: any = await createOrder({ body });
+
+      if (data.status === 201) {
+        data.order = JSON.parse(data.order);
         setLocalStorageItem("cart", "");
-        router.push(`/payment/${order._id}`);
+        router.push(`/payment/${data.order._id}`);
+      } else {
+        toast.error(data.msg);
       }
     });
   }

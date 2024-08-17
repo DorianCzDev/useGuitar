@@ -178,7 +178,11 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
                   )}
                 </div>
               </div>
-              <div className="text-2xl font-bold my-3 tracking-widest py-2 uppercase text-green-700 flex items-center">
+              <div
+                className={`text-2xl font-bold my-3 tracking-widest py-2 uppercase flex items-center ${
+                  inventory > 0 ? "text-green-600" : "text-red-600"
+                }`}
+              >
                 <span className="pr-3 text-2xl">
                   {inventory > 0 ? <GrStatusGood /> : <GrStatusWarning />}
                 </span>
@@ -186,7 +190,8 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
               </div>
               <button
                 onClick={() => dispatch(addItem(id))}
-                className="flex w-full items-center justify-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 rounded-2xl hover:bg-secondary-600"
+                disabled={inventory === 0}
+                className="flex w-full items-center justify-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 rounded-2xl hover:bg-secondary-600 disabled:opacity-50 disabled:bg-secondary-600 disabled:cursor-not-allowed"
               >
                 <span className="pr-3 text-2xl">
                   <FaCartPlus />
