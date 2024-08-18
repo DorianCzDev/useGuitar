@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import Order from "@/app/_models/Order";
 
 const stripe = require("stripe")(process.env.STRIPE_KEY);
-const endpointSecret =
-  "whsec_18bff411ae1638d40e21c6ac58bf82d16e8e1552d64259a87fa73fd67ce7ac54";
 
 export async function POST(req: NextRequest) {
   await connectMongo();
@@ -13,7 +11,11 @@ export async function POST(req: NextRequest) {
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(bodyString, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(
+      bodyString,
+      sig,
+      process.env.STRIPE_SECRET_KEY
+    );
   } catch (err: any) {
     console.log(err.message);
     return NextResponse.json({ msg: "Payment failed" });
