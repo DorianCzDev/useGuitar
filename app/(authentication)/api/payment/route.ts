@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_SECRET_KEY
     );
   } catch (err: any) {
-    console.log(err.message);
-    return NextResponse.json({ msg: "Payment failed" });
+    return NextResponse.json({ msg: err.message });
   }
 
   // Handle the event
