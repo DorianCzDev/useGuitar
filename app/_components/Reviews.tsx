@@ -55,16 +55,23 @@ function Reviews({
   };
 
   async function handleClick() {
-    if (!newReview || !stars)
+    toast.loading("Loading...");
+    if (!newReview || !stars) {
+      toast.dismiss();
       return toast.error("Please provide comment and rating");
+    }
     startTransition(async () => {
-      const { status } = await createReview({ productId, reviewBody });
-      if (status === 201) {
-        toast.success("Review added.");
+      const { data } = await createReview({ productId, reviewBody });
+      if (data.status === 201) {
+        toast.dismiss();
+        toast.success(data.msg);
         setIsWriting(false);
         setStars(null);
         setNewReview("");
-      } else toast.error("Please log in");
+      } else {
+        toast.dismiss();
+        toast.error(data.msg);
+      }
     });
   }
 
@@ -181,7 +188,7 @@ function Reviews({
                 onClick={() => setIsWriting(true)}
                 className="mx-auto w-4/5 text-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 hover:bg-secondary-600 rounded-2xl"
               >
-                {isPending ? <SpinnerMini /> : "Write review"}
+                Write review
               </button>
             ) : (
               <>

@@ -24,7 +24,9 @@ function SignupForm() {
       return toast.error("Passwords doesn't match.");
     }
     startTransition(async () => {
-      const { msg, status } = await signUp(data);
+      const {
+        data: { msg, status },
+      } = await signUp(data);
       if (status !== 201) {
         toast.error(msg);
       } else {

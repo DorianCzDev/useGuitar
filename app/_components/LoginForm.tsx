@@ -23,12 +23,12 @@ function LoginForm() {
   async function onSubmit(data: FieldValues) {
     const { email, password } = data;
     startTransition(async () => {
-      const { status, msg } = await login({ email, password });
-      if (status === StatusCodes.OK) {
-        toast.success(msg);
+      const { data } = await login({ email, password });
+      if (data.status === StatusCodes.OK) {
+        toast.success(data.msg);
         redirect("/");
       } else {
-        toast.error(msg);
+        toast.error(data.msg);
       }
     });
   }

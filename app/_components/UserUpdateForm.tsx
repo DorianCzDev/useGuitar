@@ -43,8 +43,13 @@ function UserUpdateForm({ user }: { user: {} }) {
       | any
   ) {
     startTransition(async () => {
-      const { msg } = await updateUser(data);
-      if (msg && !pathname.includes("cart")) toast.success(msg);
+      const {
+        data: { status, msg },
+      } = await updateUser(data);
+      if (status === 200 && !pathname.includes("cart")) toast.success(msg);
+      else {
+        toast.error(msg);
+      }
     });
   }
 

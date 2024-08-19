@@ -20,13 +20,13 @@ function ChangePasswordForm() {
       return toast.error("Passwords doesn't match.");
     }
     startTransition(async () => {
-      const { status, msg } = await updateUserPassword({
+      const { data } = await updateUserPassword({
         newPassword,
         currPassword,
       });
-      if (status === 200) {
-        toast.success(msg);
-      } else toast.error(msg);
+      if (data.status === 200) {
+        toast.success(data.msg);
+      } else toast.error(data.msg);
     });
   }
 

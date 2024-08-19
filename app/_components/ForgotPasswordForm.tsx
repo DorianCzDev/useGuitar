@@ -21,10 +21,12 @@ function ForgotPasswordForm() {
   async function onSubmit(data: FieldValues) {
     const { email } = data;
     startTransition(async () => {
-      const { status, msg } = await forgotPassword({ email });
-      if (status === 200) {
-        toast.success(msg);
+      const { data } = await forgotPassword({ email });
+      if (data.status === 200) {
+        toast.success(data.msg);
         router.push("/login");
+      } else {
+        toast.error(data.msg);
       }
     });
   }

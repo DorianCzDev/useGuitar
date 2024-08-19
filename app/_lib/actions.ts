@@ -30,37 +30,47 @@ export async function login({
   await connectMongo();
   if (!email || !password) {
     return {
-      status: StatusCodes.BAD_REQUEST,
-      msg: "Please provide email and password",
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: "Please provide email and password",
+      },
     };
   }
   const user = await User.findOne({ email });
   if (!user) {
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "Invalid email or password",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "Invalid email or password",
+      },
     };
   }
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "Invalid email or password",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "Invalid email or password",
+      },
     };
   }
 
   if (!user.isVerified) {
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "Please verify your email",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "Please verify your email",
+      },
     };
   }
   if (!user.isActive) {
     cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "Your account is blocked. Please check email for more details.",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "Your account is blocked. Please check email for more details.",
+      },
     };
   }
 
@@ -75,7 +85,7 @@ export async function login({
     joinAccessCookie({ user: tokenUser });
     joinRefreshCookie({ user: tokenUser, refreshToken });
 
-    return { status: StatusCodes.OK, msg: "Login succesfull!" };
+    return { data: { status: StatusCodes.OK, msg: "Login succesfull!" } };
   }
 
   refreshToken = crypto.randomBytes(40).toString("hex");
@@ -87,7 +97,7 @@ export async function login({
   joinAccessCookie({ user: tokenUser });
   joinRefreshCookie({ user: tokenUser, refreshToken });
 
-  return { status: StatusCodes.OK, msg: "Login succesfull!" };
+  return { data: { status: StatusCodes.OK, msg: "Login succesfull!" } };
 }
 
 export async function updateUser(data: {
@@ -113,8 +123,10 @@ export async function updateUser(data: {
     cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "Please log in",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "Please log in",
+      },
     };
   }
   const { firstName, lastName, country, phoneNumber, address, postCode, city } =
@@ -129,8 +141,10 @@ export async function updateUser(data: {
     !city
   ) {
     return {
-      status: StatusCodes.BAD_REQUEST,
-      msg: "Please provide all values",
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: "Please provide all values",
+      },
     };
   }
 
@@ -146,7 +160,9 @@ export async function updateUser(data: {
 
   const user = await User.findOneAndUpdate({ _id: userId }, updatedUser);
 
-  return { msg: "User successfully updated!" };
+  return {
+    data: { msg: "User successfully updated!", status: StatusCodes.OK },
+  };
 }
 
 export async function createOrder({
@@ -184,8 +200,10 @@ export async function createOrder({
     cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "Please log in",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "Please log in",
+      },
     };
   }
 
@@ -325,14 +343,22 @@ export async function createReview({
     cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
-      status: StatusCodes.UNAUTHORIZED,
+      data: {
+        msg: "Something went wrong",
+        status: StatusCodes.UNAUTHORIZED,
+      },
     };
   }
 
   const product = await Product.findOne({ _id: productId });
 
   if (!product) {
-    throw new CustomError.NotFoundError(`No product with id: ${productId}`);
+    return {
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: `No product with id: ${productId}`,
+      },
+    };
   }
 
   const alreadySubmitted = await Review.findOne({
@@ -342,8 +368,10 @@ export async function createReview({
 
   if (alreadySubmitted) {
     return {
-      status: StatusCodes.BAD_REQUEST,
-      msg: 'Already submitted review for this product"',
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: 'Already submitted review for this product"',
+      },
     };
   }
   reviewBody.user = userId;
@@ -355,7 +383,7 @@ export async function createReview({
 
   revalidatePath("/products");
 
-  return { status: StatusCodes.CREATED, msg: "Review added" };
+  return { data: { status: StatusCodes.CREATED, msg: "Review added" } };
 }
 
 export async function signUp(data: { email: string; password: string }) {
@@ -363,8 +391,10 @@ export async function signUp(data: { email: string; password: string }) {
   const { email, password } = data;
   if (!email || !password) {
     return {
-      status: StatusCodes.BAD_REQUEST,
-      msg: "Please provide email and password",
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: "Please provide email and password",
+      },
     };
   }
 
@@ -380,8 +410,10 @@ export async function signUp(data: { email: string; password: string }) {
   });
 
   return {
-    status: StatusCodes.CREATED,
-    msg: "Success! Please check your email to verify account",
+    data: {
+      status: StatusCodes.CREATED,
+      msg: "Success! Please check your email to verify account",
+    },
   };
 }
 
@@ -398,8 +430,10 @@ export async function verifyEmail({
   );
   if (!user) {
     return {
-      msg: "Something went wrong, please try again later.",
-      status: StatusCodes.UNAUTHORIZED,
+      data: {
+        msg: "Something went wrong, please try again later.",
+        status: StatusCodes.UNAUTHORIZED,
+      },
     };
   }
 
@@ -408,21 +442,27 @@ export async function verifyEmail({
   await user.save();
 
   return {
-    status: StatusCodes.OK,
-    msg: "Now your account is activated and you can sign in.",
+    data: {
+      status: StatusCodes.OK,
+      msg: "Now your account is activated and you can sign in.",
+    },
   };
 }
 
 export async function forgotPassword({ email }: { email: string }) {
   await connectMongo();
   if (!email) {
-    throw new CustomError.BadRequestError("Email doesn't exists");
+    return {
+      data: { status: StatusCodes.NOT_FOUND, msg: "Something went wrong." },
+    };
   }
   const user = await User.findOne({ email }).select(
     "forgotPasswordToken forgotPasswordTokenExpirationDate name email"
   );
   if (!user) {
-    throw new CustomError.BadRequestError("User doesn't exists");
+    return {
+      data: { status: StatusCodes.NOT_FOUND, msg: "Something went wrong." },
+    };
   }
 
   const forgotPasswordToken = crypto.randomBytes(40).toString("hex");
@@ -445,8 +485,10 @@ export async function forgotPassword({ email }: { email: string }) {
   await user.save();
 
   return {
-    status: StatusCodes.OK,
-    msg: "Please check your email for reset password link",
+    data: {
+      status: StatusCodes.OK,
+      msg: "Please check your email for reset password link",
+    },
   };
 }
 
@@ -461,11 +503,18 @@ export async function resetPassword({
 }) {
   await connectMongo();
   if (!forgotPasswordToken || !email || !password) {
-    throw new CustomError.BadRequestError("Please provide all values");
+    return {
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: "Please provide all required values.",
+      },
+    };
   }
   const user = await User.findOne({ email });
   if (!user) {
-    throw new CustomError.BadRequestError("User doesn't exists");
+    return {
+      data: { status: StatusCodes.NOT_FOUND, msg: "Something went wrong." },
+    };
   }
   const currentDate = new Date();
   if (
@@ -478,7 +527,7 @@ export async function resetPassword({
     user.forgotPasswordTokenExpirationDate = null;
     await user.save();
   }
-  return { status: StatusCodes.OK, msg: "Your password is updated" };
+  return { data: { status: StatusCodes.OK, msg: "Your password is updated" } };
 }
 
 export async function updateUserPassword({
@@ -501,26 +550,35 @@ export async function updateUserPassword({
     cookies().delete("accessToken");
     cookies().delete("refreshToken");
     return {
-      msg: "Something went wrong, please try again later.",
-      status: StatusCodes.UNAUTHORIZED,
+      data: {
+        msg: "Something went wrong, please try again later.",
+        status: StatusCodes.UNAUTHORIZED,
+      },
     };
   }
   if (!currPassword || !newPassword) {
-    throw new CustomError.BadRequestError("Please provide all values");
+    return {
+      data: {
+        status: StatusCodes.BAD_REQUEST,
+        msg: "Please provide all required values.",
+      },
+    };
   }
   const user = await User.findOne({ _id: userId });
 
   const isPasswordCorrect = await user.comparePassword(currPassword);
 
   if (!isPasswordCorrect) {
-    return { status: StatusCodes.UNAUTHORIZED, msg: "Invalid password" };
+    return {
+      data: { status: StatusCodes.UNAUTHORIZED, msg: "Invalid password" },
+    };
   }
 
   user.password = newPassword;
 
   await user.save();
 
-  return { status: StatusCodes.OK, msg: "Password updated!" };
+  return { data: { status: StatusCodes.OK, msg: "Password updated!" } };
 }
 
 export async function logout() {
@@ -538,13 +596,15 @@ export async function logout() {
 
   if (!userId) {
     return {
-      status: StatusCodes.UNAUTHORIZED,
-      msg: "You are not logged in",
+      data: {
+        status: StatusCodes.UNAUTHORIZED,
+        msg: "You are not logged in",
+      },
     };
   }
   await Token.findOneAndDelete({ user: userId });
 
-  return { status: StatusCodes.OK, msg: "You logged out" };
+  return { data: { status: StatusCodes.OK, msg: "You logged out" } };
 }
 
 export async function reportReview(id: string) {

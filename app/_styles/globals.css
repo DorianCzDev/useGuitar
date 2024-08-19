@@ -20,7 +20,7 @@ input::-webkit-inner-spin-button {
     width: 60px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 8px solid #fff;
+    border: 8px solid #e5e5e5;
     border-right-color: #181c28;
     animation: rotate 1s infinite linear;
   }
@@ -30,7 +30,7 @@ input::-webkit-inner-spin-button {
     width: 20px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px solid #fff;
+    border: 2px solid #e5e5e5;
     border-right-color: transparent;
     animation: rotate 1s infinite linear;
   }
@@ -40,11 +40,4 @@ input::-webkit-inner-spin-button {
       transform: rotate(1turn);
     }
   }
-}
-
-.rdp {
-  --rdp-cell-size: 32px !important;
-  --rdp-accent-color: #fff !important;
-  --rdp-background-color: #fff !important;
-  margin: 0 !important;
 }

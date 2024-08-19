@@ -29,14 +29,16 @@ function ResetPasswordForm({
       return toast.error("Passwords doesn't match.");
     }
     startTransition(async () => {
-      const { status, msg } = await resetPassword({
+      const { data } = await resetPassword({
         password,
         forgotPasswordToken,
         email,
       });
-      if (status === 200) {
-        toast.success(msg);
+      if (data.status === 200) {
+        toast.success(data.msg);
         router.push("/login");
+      } else {
+        toast.error(data.msg);
       }
     });
   }

@@ -38,12 +38,14 @@ function RootLayout({ children }: ChildrenOnlyProps) {
               duration: 3000,
             },
             error: {
-              duration: 5000,
+              duration: 10000,
             },
             style: {
               fontSize: "16px",
               maxWidth: "500px",
               padding: "16px 24px",
+              backgroundColor: "#181C28",
+              color: "#e5e5e5",
             },
           }}
         />

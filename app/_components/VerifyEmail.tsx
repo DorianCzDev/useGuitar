@@ -15,9 +15,9 @@ function VerifyEmail({
   const router = useRouter();
   useEffect(() => {
     async function sendData() {
-      const { msg, status } = await verifyEmail({ email, verificationToken });
-      if (status === 200) {
-        toast.success(msg);
+      const { data } = await verifyEmail({ email, verificationToken });
+      if (data.status === 200) {
+        toast.success(data.msg);
       }
       router.push("/");
     }
