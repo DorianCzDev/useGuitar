@@ -332,12 +332,22 @@ export async function createReview({
 }) {
   await connectMongo();
   const accessToken = cookies().get("accessToken")?.value;
+  if (!accessToken) {
+    return {
+      data: {
+        msg: "You must be logged in.",
+        status: StatusCodes.UNAUTHORIZED,
+      },
+    };
+  }
   const {
     user: { userId },
   } = jwt.verify(
     accessToken!,
     process.env.JWT_SECRET!
   ) as AccessTokenJwtPayload;
+
+  console.log(userId);
 
   if (!userId) {
     cookies().delete("accessToken");

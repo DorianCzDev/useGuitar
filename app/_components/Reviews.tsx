@@ -2,12 +2,11 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
-import { TiStar } from "react-icons/ti";
 import toast from "react-hot-toast";
+import { TiStar } from "react-icons/ti";
+import { createReview, reportReview } from "../_lib/actions";
 import Rating from "./Rating";
 import TextExpander from "./TextExpander";
-import { createReview, reportReview } from "../_lib/actions";
-import SpinnerMini from "./SpinnerMini";
 
 function Reviews({
   ratingsCount,
@@ -59,6 +58,10 @@ function Reviews({
     if (!newReview || !stars) {
       toast.dismiss();
       return toast.error("Please provide comment and rating");
+    }
+    if (newReview.length > 1000) {
+      toast.dismiss();
+      return toast.error("Review can not be more than 1000 characters");
     }
     startTransition(async () => {
       const { data } = await createReview({ productId, reviewBody });
