@@ -3,7 +3,6 @@ import Product from "@/app/_models/Product";
 import Delivery from "@/app/_models/Delivery";
 
 import featureToArray from "@/app/_helpers/featureToArray";
-import CustomError from "@/app/_errors/index";
 
 export async function getProductsByCategory({ searchParams, category }) {
   await connectMongo();
@@ -133,18 +132,13 @@ export async function getSingleProduct({ productName }) {
     path: "reviews",
     select: "comment user rating",
   });
-  if (!product) {
-    throw new CustomError.NotFoundError(`No product with name: ${productName}`);
-  }
   product = JSON.parse(JSON.stringify(product));
   return { product };
 }
 
 export async function getProductsFromCart(id) {
   await connectMongo();
-  if (!id) {
-    throw new CustomError.BadRequestError("Your cart is empty");
-  }
+
   const idArray = id.split("-");
   let products = [];
   for (const id of idArray) {
@@ -169,7 +163,6 @@ export async function getProductsFromCart(id) {
 
 export async function getAllDeliveries() {
   await connectMongo();
-
   let deliveries = await Delivery.find({});
   deliveries = JSON.parse(JSON.stringify(deliveries));
   return { deliveries };
@@ -177,6 +170,7 @@ export async function getAllDeliveries() {
 
 export async function getDiscountedProducts() {
   await connectMongo();
+
   let products = await Product.find({ discount: { $gt: 0 } })
     .select(
       "price discount name category _id images.imageURL noDiscountPrice averageRating numOfReviews"
@@ -190,6 +184,7 @@ export async function getDiscountedProducts() {
 
 export async function getFeaturedProducts() {
   await connectMongo();
+
   let products = await Product.find({ featured: true })
     .select(
       "price discount name category _id images.imageURL featured noDiscountPrice averageRating numOfReviews"

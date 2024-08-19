@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { logout } from "../_lib/actions";
 import toast from "react-hot-toast";
 import { useTransition } from "react";
+import { logout } from "../_lib/authActions";
 
 function AccountSidebar() {
   const pathname = usePathname();
@@ -11,9 +11,7 @@ function AccountSidebar() {
   const [isPending, startTransition] = useTransition();
 
   async function handleLogout() {
-    if (isPending) {
-      toast.loading("Loading...");
-    }
+    toast.loading("Loading...");
     startTransition(async () => {
       const { data } = await logout();
       if (data.status === 200) {

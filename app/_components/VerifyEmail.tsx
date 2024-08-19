@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { verifyEmail } from "../_lib/actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { verifyEmail } from "../_lib/authActions";
 
 function VerifyEmail({
   email,

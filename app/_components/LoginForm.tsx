@@ -7,9 +7,9 @@ import { redirect } from "next/navigation";
 import { useTransition } from "react";
 import { FieldErrors, FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { login } from "../_lib/actions";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
+import { login } from "../_lib/authActions";
 
 function LoginForm() {
   const [isPending, startTransition] = useTransition();

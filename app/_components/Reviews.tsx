@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { TiStar } from "react-icons/ti";
-import { createReview, reportReview } from "../_lib/actions";
+import { createReview, reportReview } from "../_lib/reviewActions";
 import Rating from "./Rating";
 import TextExpander from "./TextExpander";
 
@@ -227,8 +227,8 @@ function Reviews({
             <div className="w-full flex justify-end ">
               <button
                 onClick={async () => {
-                  const { msg } = await reportReview(review._id);
-                  toast.success(msg);
+                  const { data } = await reportReview(review._id);
+                  toast.success(data.msg);
                 }}
                 className="cursor-pointer border-none text-sm tracking-wider text-red-700 font-bold opacity-0 group-hover:opacity-100 transition-all "
               >

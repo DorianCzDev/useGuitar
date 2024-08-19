@@ -5,11 +5,11 @@ import { FieldErrors, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { countries } from "../_helpers/countries";
-import { updateUser } from "../_lib/actions";
 import { StateCart } from "../_types/types";
 import Button from "./Button";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
+import { updateUser } from "../_lib/userActions";
 
 function UserUpdateForm({ user }: { user: {} }) {
   const pathname = usePathname();
@@ -47,7 +47,7 @@ function UserUpdateForm({ user }: { user: {} }) {
         data: { status, msg },
       } = await updateUser(data);
       if (status === 200 && !pathname.includes("cart")) toast.success(msg);
-      else {
+      else if (status !== 200) {
         toast.error(msg);
       }
     });

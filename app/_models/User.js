@@ -17,15 +17,15 @@ const UserSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Please provide email"],
-      maxlength: 20,
+      maxlength: [20, "No more than 20 characters"],
       lowercase: true,
       unique: true,
     },
     password: {
       type: String,
       required: [true, "Please provide password"],
-      minlength: 6,
-      maxlength: 20,
+      minlength: [6, "No less than 6 characters"],
+      maxlength: [20, "No more than 20 characters"],
     },
     role: {
       type: String,
@@ -51,15 +51,15 @@ const UserSchema = new mongoose.Schema(
     },
     postCode: {
       type: String,
-      maxlength: 10,
+      maxlength: [10, "No more than 10 characters"],
     },
     address: {
       type: String,
-      maxlength: 20,
+      maxlength: [20, "No more than 20 characters"],
     },
     city: {
       type: String,
-      maxlength: 20,
+      maxlength: [20, "No more than 20 characters"],
     },
     country: {
       type: String,
@@ -67,7 +67,7 @@ const UserSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      maxlength: 20,
+      maxlength: [20, "No more than 20 characters"],
     },
   },
   {

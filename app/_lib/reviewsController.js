@@ -4,6 +4,7 @@ import featureToArray from "../_helpers/featureToArray";
 
 export async function getProductReviews({ searchParams, id }) {
   await connectMongo();
+
   const { rating } = searchParams;
 
   let reviews = await Review.find({ product: id });

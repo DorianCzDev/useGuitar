@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import priceFormater from "../_helpers/priceFormater";
 import setLocalStorageItem from "../_helpers/setLocalStorageItem";
 import useAuth from "../_hooks/useAuth";
-import { createOrder } from "../_lib/actions";
 import { getTotalCartPrice } from "../_utils/cartSlice";
 import Button from "./Button";
 import DeliveryMethod from "./DeliveryMethod";
@@ -25,6 +24,7 @@ import {
 import SpinnerMini from "./SpinnerMini";
 import { StateCartAfterFetchType, UserDataType } from "../_types/types";
 import toast from "react-hot-toast";
+import { createOrder } from "../_lib/orderActions";
 
 type OrderSummaryProps = {
   cartProducts: [];

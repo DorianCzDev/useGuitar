@@ -1,5 +1,4 @@
-import nodemailer from "nodemailer";
-import nodemailerConfig from "./nodemailerConfig";
+import { EmailParams, MailerSend, Recipient, Sender } from "mailersend";
 
 type SendEmailProps = {
   to: string;
@@ -8,12 +7,23 @@ type SendEmailProps = {
 };
 
 export default async function sendEmail({ to, subject, html }: SendEmailProps) {
-  const transporter = nodemailer.createTransport(nodemailerConfig);
-
-  return transporter.sendMail({
-    from: '"useGuitar support" <useguitar.noreply@gmail.com>',
-    to,
-    subject,
-    html,
+  const mailerSend = new MailerSend({
+    apiKey: process.env.MAILERSEND_API_TOKEN || "",
   });
+
+  const sentFrom = new Sender(
+    "useGuitar@trial-z86org865nn4ew13.mlsender.net",
+    "useGuitar"
+  );
+
+  const recipients = [new Recipient(to, "")];
+
+  const emailParams = new EmailParams()
+    .setFrom(sentFrom)
+    .setTo(recipients)
+    .setReplyTo(sentFrom)
+    .setSubject(subject)
+    .setHtml(html);
+
+  await mailerSend.email.send(emailParams);
 }

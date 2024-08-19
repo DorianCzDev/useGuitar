@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { signUp } from "../_lib/actions";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
+import { signUp } from "../_lib/authActions";
 
 function SignupForm() {
   const router = useRouter();

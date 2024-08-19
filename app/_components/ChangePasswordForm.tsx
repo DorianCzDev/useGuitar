@@ -4,13 +4,14 @@ import { FieldErrors, useForm } from "react-hook-form";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
 import toast from "react-hot-toast";
-import { updateUserPassword } from "../_lib/actions";
+import { updateUserPassword } from "../_lib/userActions";
 
 function ChangePasswordForm() {
   const [isPending, startTransition] = useTransition();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -24,6 +25,7 @@ function ChangePasswordForm() {
         newPassword,
         currPassword,
       });
+      reset();
       if (data.status === 200) {
         toast.success(data.msg);
       } else toast.error(data.msg);

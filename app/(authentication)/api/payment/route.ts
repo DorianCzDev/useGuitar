@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ msg: err.message });
   }
 
-  // Handle the event
   switch (event.type) {
     case "payment_intent.succeeded":
       const paymentIntentSucceeded = event.data.object;
@@ -30,7 +29,6 @@ export async function POST(req: NextRequest) {
       order.status = "waiting for shipment";
       await order.save();
       break;
-    // ... handle other event types
     default:
       console.log(`Unhandled event type ${event.type}`);
   }

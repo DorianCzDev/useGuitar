@@ -5,8 +5,8 @@ import { FieldErrors, FieldValues, useForm } from "react-hook-form";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
 import toast from "react-hot-toast";
-import { resetPassword } from "../_lib/actions";
 import { useRouter } from "next/navigation";
+import { resetPassword } from "../_lib/userActions";
 
 function ResetPasswordForm({
   email,

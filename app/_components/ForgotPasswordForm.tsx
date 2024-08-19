@@ -5,9 +5,10 @@ import { useTransition } from "react";
 import { FieldErrors, FieldValues, useForm } from "react-hook-form";
 import ErrorSpan from "./ErrorSpan";
 import SpinnerMini from "./SpinnerMini";
-import { forgotPassword } from "../_lib/actions";
+
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { forgotPassword } from "../_lib/userActions";
 
 function ForgotPasswordForm() {
   const [isPending, startTransition] = useTransition();
