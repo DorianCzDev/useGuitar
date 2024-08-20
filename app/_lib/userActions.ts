@@ -129,7 +129,7 @@ export async function forgotPassword({ email }: { email: string }) {
 
   const forgotPasswordToken = crypto.randomBytes(40).toString("hex");
 
-  const origin = "http://localhost:3000/";
+  const origin = process.env.NEXT_PUBLIC_URL || "";
   await sendResetPasswordEmail({
     email: user.email,
     forgotPasswordToken,

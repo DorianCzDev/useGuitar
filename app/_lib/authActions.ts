@@ -140,7 +140,7 @@ export async function signUp(data: { email: string; password: string }) {
     };
   }
 
-  const origin = "http://localhost:3000/";
+  const origin = process.env.NEXT_PUBLIC_URL || "";
 
   await sendVerificationEmail({
     email: user.email,
