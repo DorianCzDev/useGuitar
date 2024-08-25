@@ -3,7 +3,7 @@
 export default function Error({ error, reset }: any) {
   console.log(error);
   return (
-    <main className="flex justify-center items-center flex-col gap-6 h-dvh">
+    <main className="mx-auto flex justify-center items-center flex-col gap-6 h-dvh w-[600px]">
       <h1 className="text-3xl font-semibold">Something went wrong!</h1>
       <p className="text-lg">{error.message}</p>
 

@@ -35,7 +35,7 @@ function RootLayout({ children }: ChildrenOnlyProps) {
           }}
           toastOptions={{
             success: {
-              duration: 3000,
+              duration: 5000,
             },
             error: {
               duration: 10000,
@@ -46,6 +46,7 @@ function RootLayout({ children }: ChildrenOnlyProps) {
               padding: "16px 24px",
               backgroundColor: "#181C28",
               color: "#e5e5e5",
+              border: "#384661",
             },
           }}
         />

@@ -56,8 +56,8 @@ function LoginForm() {
           {...register("email", {
             required: "Please provide email",
             maxLength: {
-              value: 20,
-              message: "No more than 20 characters",
+              value: 50,
+              message: "No more than 50 characters",
             },
             pattern: {
               value: /\S+@\S+\.\S+/,

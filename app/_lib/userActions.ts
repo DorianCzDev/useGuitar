@@ -87,6 +87,15 @@ export async function updateUser(data: {
   try {
     const user = await User.findOneAndUpdate({ _id: userId }, updatedUser);
   } catch (error: any) {
+    if (error.name === "ValidationError") {
+      const firstErrorKey = Object.keys(error.errors)[0];
+      return {
+        data: {
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
+          msg: `${firstErrorKey}: ${error.errors[firstErrorKey].properties.message}`,
+        },
+      };
+    }
     return {
       data: {
         status: StatusCodes.INTERNAL_SERVER_ERROR,
@@ -148,6 +157,15 @@ export async function forgotPassword({ email }: { email: string }) {
   try {
     await user.save();
   } catch (error: any) {
+    if (error.name === "ValidationError") {
+      const firstErrorKey = Object.keys(error.errors)[0];
+      return {
+        data: {
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
+          msg: `${firstErrorKey}: ${error.errors[firstErrorKey].properties.message}`,
+        },
+      };
+    }
     return {
       data: {
         status: StatusCodes.INTERNAL_SERVER_ERROR,

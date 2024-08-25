@@ -142,6 +142,7 @@ export async function createOrder({
     };
   }
 
+  let order;
   for (const clientProduct of clientProducts) {
     const product = await Product.findOne({
       _id: clientProduct.product,
@@ -158,23 +159,43 @@ export async function createOrder({
     currency: "usd",
   });
 
-  let order = await Order.create({
-    orderItems: clientProducts,
-    total: serverTotalPrice,
-    user: userId,
-    deliveryMethod: deliverySupplier,
-    deliveryCost: deliveryCost,
-    firstName,
-    lastName,
-    address,
-    city,
-    email,
-    phoneNumber,
-    postCode,
-    country,
-    clientSecret: paymentIntent.client_secret,
-    paymentIntentId: paymentIntent.id,
-  });
+  try {
+    order = await Order.create({
+      orderItems: clientProducts,
+      total: serverTotalPrice,
+      user: userId,
+      deliveryMethod: deliverySupplier,
+      deliveryCost: deliveryCost,
+      firstName,
+      lastName,
+      address,
+      city,
+      email,
+      phoneNumber,
+      postCode,
+      country,
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
+    });
+  } catch (error: any) {
+    if (error.name === "ValidationError") {
+      const firstErrorKey = Object.keys(error.errors)[0];
+      return {
+        data: {
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
+          msg: `${firstErrorKey}: ${error.errors[firstErrorKey].properties.message}`,
+        },
+      };
+    }
+    return {
+      data: {
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        msg: error?.errors?.comment?.properties?.message
+          ? error.errors.comment.properties.message
+          : error.errorResponse.errmsg,
+      },
+    };
+  }
 
   order = JSON.stringify(order);
 

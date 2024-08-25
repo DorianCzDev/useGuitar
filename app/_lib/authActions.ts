@@ -129,6 +129,15 @@ export async function signUp(data: { email: string; password: string }) {
   try {
     user = await User.create({ email, password, verificationToken });
   } catch (error: any) {
+    if (error.name === "ValidationError") {
+      const firstErrorKey = Object.keys(error.errors)[0];
+      return {
+        data: {
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
+          msg: `${firstErrorKey}: ${error.errors[firstErrorKey].properties.message}`,
+        },
+      };
+    }
     return {
       data: {
         status: StatusCodes.INTERNAL_SERVER_ERROR,

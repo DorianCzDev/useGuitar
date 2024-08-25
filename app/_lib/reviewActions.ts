@@ -78,7 +78,7 @@ export async function createReview({
     return {
       data: {
         status: StatusCodes.BAD_REQUEST,
-        msg: 'Already submitted review for this product"',
+        msg: "Already submitted review for this product",
       },
     };
   }
@@ -90,6 +90,15 @@ export async function createReview({
   try {
     review = await Review.create(reviewBody);
   } catch (error: any) {
+    if (error.name === "ValidationError") {
+      const firstErrorKey = Object.keys(error.errors)[0];
+      return {
+        data: {
+          status: StatusCodes.INTERNAL_SERVER_ERROR,
+          msg: `${firstErrorKey}: ${error.errors[firstErrorKey].properties.message}`,
+        },
+      };
+    }
     return {
       data: {
         status: StatusCodes.INTERNAL_SERVER_ERROR,
