@@ -63,7 +63,7 @@ function PickupFilters() {
           selectedIcon={<IoMdCheckbox />}
           unselectedIcon={<MdCheckBoxOutlineBlank />}
           queryName="subcategory"
-          queryValue="bass guitars pickup"
+          queryValue="bass guitar pickup"
           onFilter={handleFilter}
         >
           bass guitars pickups
