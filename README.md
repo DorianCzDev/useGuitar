@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# E-commerce Demo Projects
 
-First, run the development server:
+All projects are non-commercial and they use the same database.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+For install npm modules run
+
+```
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you want to know more about a specific project, scroll ⬇️.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* [useGuitar-api](https://github.com/DorianCzDev/useGuitar-api) is back-end server based on express.js for `useGuitarPanel`
+* [useGuiratPanel](https://github.com/DorianCzDev/useGuitarPanel) is front-end react app for employees where they can add/remove/edit stuff
+* [useGuitar](https://github.com/DorianCzDev/useGuitar) is full-stack next.js app where customer can order stuff
+##  `useGuitar` Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+**Client:** `Typescript`, `Next.js`
 
-## Learn More
+**Server:** `Next.js`
 
-To learn more about Next.js, take a look at the following resources:
+**Database:** `MongoDB`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Main Libraries:** `Tailwind`, `Stipe`, `nodemailer`, `jsonwebtoken`, `React Slick`, `React Redux`, `Mongoose`, `React Hook Form`
+##  `useGuitar` Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Manage cart data with `React Redux` and store it in local storage
+- Make order with stripe API supported by webhook which listens to payment receive event
+- Auth based on cookies - accessToken and refreshToken, the second is stored in database
+- Pagination based on database skip and limit
+- Real-time calculations by database with pre and post methods
+- Joining documents with virtuals
+- Sending cookies with hashing tokens to client
+- Sign up with password hashing and sending verification email with token stored in database by `nodemailer` and gmail smtp
+- Sorting and filtering data
+- Forgot password, send mail with reset password token stored in database
+- ...and many more!

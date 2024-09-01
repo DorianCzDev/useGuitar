@@ -1,3 +1,5 @@
+import "server-only";
+
 export default {
   service: "gmail",
   host: "smtp.gmail.com",

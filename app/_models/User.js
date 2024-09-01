@@ -63,6 +63,7 @@ const UserSchema = new mongoose.Schema(
     country: {
       type: String,
       enum: countries,
+      maxlength: [30, "No more than 20 characters"],
     },
     phoneNumber: {
       type: String,

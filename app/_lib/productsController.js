@@ -12,6 +12,7 @@ export async function getProductsByCategory({ searchParams, category }) {
   let queryArray = [];
   let queryFilters = [];
 
+  // preparing data to valid format for mongoose
   queryEntries.map((arrayEl) => {
     if (arrayEl[1].includes("true")) {
       arrayEl[1] = true;
