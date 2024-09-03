@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import ReduxProvider from "@/app/_components/ReduxProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const lato = Lato({
   weight: ["300", "400", "700"],
@@ -53,6 +54,7 @@ function RootLayout({ children }: ChildrenOnlyProps) {
         <ReduxProvider>
           <div>{children}</div>
         </ReduxProvider>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
