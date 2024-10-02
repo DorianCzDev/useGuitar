@@ -1,12 +1,11 @@
 "use client";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { FaMoon, FaSun } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { StateCart } from "../_types/types";
-
+import { FaSun, FaMoon } from "react-icons/fa";
 function Menu() {
   const curCart = useSelector((state: { cart: StateCart }) => state.cart.cart);
   let idString = "";
@@ -21,7 +20,7 @@ function Menu() {
   return (
     <div className="mx-auto w-full flex justify-around">
       <div className="flex justify-center items-center basis-1/3 ">
-        <div className="text-5xl cursor-pointer  hover:text-neutral-400 transition-all">
+        <div className="text-5xl cursor-pointer  hover:text-fontPrimary-700 transition-all">
           {theme === `light` && (
             <FaMoon
               onClick={() => {
@@ -59,7 +58,7 @@ function Menu() {
       </div>
       <div className="flex justify-center items-center basis-1/3 gap-7 sm:gap-1">
         <Link href={"/account/user"}>
-          <span className="text-5xl cursor-pointer  hover:text-neutral-400 transition-all">
+          <span className="text-5xl cursor-pointer  hover:text-fontPrimary-700 transition-all text-fontPrimary-500">
             <MdOutlineAccountCircle className="h-12 sm:h-10" title="Account" />
           </span>
         </Link>

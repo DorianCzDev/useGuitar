@@ -39,3 +39,4 @@ If you want to know more about a specific project, scroll ⬇️.
 - Sign up with password hashing and sending verification email with token stored in database by `nodemailer` and gmail smtp
 - Sorting and filtering data
 - Forgot password, send mail with reset password token stored in database
+- Dark/light mode
