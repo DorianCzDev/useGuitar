@@ -30,7 +30,7 @@ function Menu() {
               className="h-12 sm:h-10"
             />
           )}
-          {(theme === `dark` || !theme) && (
+          {(theme === `dark` || !theme || theme === "system") && (
             <FaSun
               onClick={() => {
                 setTheme(`light`);
