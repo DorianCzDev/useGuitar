@@ -53,7 +53,11 @@ function RootLayout({ children }: ChildrenOnlyProps) {
           }}
         />
         <ReduxProvider>
-          <ThemeProvider attribute="class" enableSystem={false}>
+          <ThemeProvider
+            attribute="class"
+            enableSystem={false}
+            defaultTheme="dark"
+          >
             <div>{children}</div>
           </ThemeProvider>
         </ReduxProvider>

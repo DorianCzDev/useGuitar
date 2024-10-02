@@ -149,7 +149,7 @@ function Button({ children, onClick }: ButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center cursor-pointer border-none outline-none bg-transparent text-lg text-fontPrimary-500 transition-all hover:text-fontPrimary-600"
+      className="flex items-center cursor-pointer border-none outline-none bg-transparent text-lg text-fontPrimary-500 transition-all hover:text-fontPrimary-700"
     >
       {children}
     </button>

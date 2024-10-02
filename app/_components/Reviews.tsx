@@ -197,7 +197,7 @@ function Reviews({
               <>
                 <button
                   onClick={handleClick}
-                  className="text-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 hover:bg-secondary-600 rounded-2xl"
+                  className="text-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 hover:bg-secondary-600 rounded-2xl text-slate-50"
                 >
                   Add review
                 </button>

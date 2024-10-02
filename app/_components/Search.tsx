@@ -21,7 +21,7 @@ function Search() {
       <input
         placeholder="Search for products..."
         onChange={(e) => handleFilter("name", e.target.value)}
-        className="text-neutral-400 border border-primary-600 w-3/4 outline-none mb-10 focus:border-primary-500 py-3 px-4 bg-accent-500 md:w-full"
+        className="text-fontPrimary-600 border border-primary-600 w-3/4 outline-none mb-10 focus:border-primary-500 py-3 px-4 bg-accent-500 md:w-full"
       />
     </div>
   );

@@ -19,7 +19,7 @@ function Sort() {
     <div className="flex w-full justify-end items-center md:pb-6 md:justify-center">
       <select
         onChange={(e) => handleFilter("sortBy", e.target.value)}
-        className="py-1 px-2 outline-none bg-accent-500 rounded text-neutral-400 border border-primary-600"
+        className="py-1 px-2 outline-none bg-accent-500 rounded text-fontPrimary-600 border border-primary-600"
       >
         <option value="createdAt">Default</option>
         <option value="name">Name (A-Z)</option>

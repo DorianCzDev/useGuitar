@@ -105,10 +105,10 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
             </Modal>
           </div>
         )}
-        <div className="py-2  text-neutral-400">
+        <div className="py-2  text-fontPrimary-700">
           <Link
             href={"/"}
-            className="text-sm px-1 capitalize transition-all hover:text-slate-300"
+            className="text-sm px-1 capitalize transition-all hover:text-fontPrimary-500"
           >
             Home
           </Link>
@@ -117,12 +117,12 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
             href={`/products/${
               category !== "multi effect" ? `${category}s` : "multiEffects"
             }`}
-            className="text-sm px-1 capitalize transition-all hover:text-slate-300"
+            className="text-sm px-1 capitalize transition-all hover:text-fontPrimary-500"
           >{`${category}s`}</Link>
           <span className="text-sm">{" > "}</span>
           <Link
             href={``}
-            className="text-sm px-1 capitalize transition-all hover:text-slate-300"
+            className="text-sm px-1 capitalize transition-all hover:text-fontPrimary-500"
           >
             {name}
           </Link>
