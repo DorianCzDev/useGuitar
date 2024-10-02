@@ -116,7 +116,7 @@ function OrderSummary({ cartProducts, deliveries }: OrderSummaryProps) {
   return (
     <div className="mt-10 mx-auto grid grid-cols-[1fr_450px] relative lg:block">
       <article>
-        <h1 className="text-[40px] font-bold tracking-widest p-2 mb-6 text-neutral-400">
+        <h1 className="text-[40px] font-bold tracking-widest p-2 mb-6 text-fontPrimary-600">
           Order overview
         </h1>
         <OrderCustomerDetails user={user} />

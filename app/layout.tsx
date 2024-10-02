@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import ReduxProvider from "@/app/_components/ReduxProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider } from "next-themes";
 
 const lato = Lato({
   weight: ["300", "400", "700"],
@@ -26,7 +27,7 @@ function RootLayout({ children }: ChildrenOnlyProps) {
   return (
     <html>
       <body
-        className={`${lato.className} bg-primary-900 text-slate-200 min-h-dvh`}
+        className={`${lato.className} bg-primary-900 text-fontPrimary-500 min-h-dvh`}
       >
         <Toaster
           position="top-center"
@@ -52,7 +53,9 @@ function RootLayout({ children }: ChildrenOnlyProps) {
           }}
         />
         <ReduxProvider>
-          <div>{children}</div>
+          <ThemeProvider attribute="class">
+            <div>{children}</div>
+          </ThemeProvider>
         </ReduxProvider>
         <Analytics />
         <SpeedInsights />

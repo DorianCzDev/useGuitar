@@ -19,24 +19,30 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          50: "#556b95",
-          100: "#4e6188",
-          200: "#46587b",
-          300: "#3f4f6e",
-          400: "#384661",
-          500: "#303c54",
-          600: "#293347",
-          700: "#212a3a",
-          800: "#1a202d",
-          900: "#131720",
-          950: "#0b0e13",
+          50: "rgba(var(--primary-50))",
+          100: "rgba(var(--primary-100))",
+          200: "rgba(var(--primary-200))",
+          300: "rgba(var(--primary-300))",
+          400: "rgba(var(--primary-400))",
+          500: "rgba(var(--primary-500))",
+          600: "rgba(var(--primary-600))",
+          700: "rgba(var(--primary-700))",
+          800: "rgba(var(--primary-800))",
+          900: "rgba(var(--primary-900))",
+          950: "rgba(var(--primary-950))",
         },
         secondary: {
-          500: "#065ec0",
-          600: "#0552a8",
+          500: "rgba(var(--secondary-500))",
+          600: "rgba(var(--secondary-600))",
+        },
+        fontPrimary: {
+          500: "rgba(var(--font-primary-500))",
+          600: "rgba(var(--font-primary-600))",
+          700: "rgba(var(--font-primary-700))",
+
         },
         accent: {
-          500: "#181C28",
+          500: "rgba(var(--accent-500))",
         },
       },
       keyframes: {

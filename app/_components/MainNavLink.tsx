@@ -15,9 +15,9 @@ function MainNavLink({ children, href }: MainNavLinkProps) {
       href={href}
       className={`visited:link ${
         pathname === href
-          ? "text-neutral-200 border-b border-neutral-300"
-          : "text-neutral-500"
-      } visited:link:active:no-underline uppercase tracking-[4px] px-8 text-2xl py-5 hover:text-neutral-200 font-normal md:text-4xl md:text-neutral-200 md:border-none transition-colors`}
+          ? "text-fontPrimary-500 border-b border-fontPrimary-500"
+          : "text-fontPrimary-700"
+      } visited:link:active:no-underline uppercase tracking-[4px] px-8 text-2xl py-5 hover:text-fontPrimary-500 font-normal md:text-4xl md:text-neutral-200 md:border-none transition-colors`}
     >
       {children}
     </Link>

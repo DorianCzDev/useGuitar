@@ -21,14 +21,14 @@ function CartSummary() {
 
   return (
     <aside className="sticky w-4/5 top-56 h-[450px] mx-auto mt-8 lg:static lg:h-max">
-      <h1 className="text-[40px] font-bold tracking-widest p-2 mb-3 text-neutral-300 text-center border-b border-primary-700">
+      <h1 className="text-[40px] font-bold tracking-widest p-2 mb-3 text-fontPrimary-600 text-center border-b border-primary-700">
         Summary
       </h1>
       <section className="flex justify-between items-center">
-        <span className="text-xl tracking-wider text-neutral-300">
+        <span className="text-xl tracking-wider text-fontPrimary-600">
           Estimated Total:
         </span>
-        <span className="text-xl tracking-wider text-neutral-200 font-bold">
+        <span className="text-xl tracking-wider text-fontPrimary-500 font-bold">
           $ {priceFormater(price)}
         </span>
       </section>

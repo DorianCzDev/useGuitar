@@ -15,7 +15,7 @@ function DeliveryMethod({
 }: DeliveryMethodProps) {
   return (
     <section className="text-lg pt-20">
-      <h1 className="text-[40px] font-bold tracking-widest p-2 mb-6 text-neutral-400">
+      <h1 className="text-[40px] font-bold tracking-widest p-2 mb-6 text-fontPrimary-600">
         Delivery method
       </h1>
       <form>

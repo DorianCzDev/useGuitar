@@ -41,3 +41,49 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
+.dark {
+  --primary-50: 85, 107, 149;
+  --primary-100: 78, 97, 136;
+  --primary-200: 70, 88, 123;
+  --primary-300: 63, 79, 110;
+  --primary-400: 56, 70, 97;
+  --primary-500: 48, 60, 84;
+  --primary-600: 41, 51, 71;
+  --primary-700: 33, 42, 58;
+  --primary-800: 26, 32, 45;
+  --primary-900: 19, 23, 32;
+  --primary-950: 11, 14, 19;
+
+  --font-primary-500: 226, 232, 240;
+  --font-primary-600: 212, 212, 212;
+  --font-primary-700: 163, 163, 163;
+
+  --secondary-500: 6, 94, 192;
+  --secondary-600: 5, 82, 168;
+
+  --accent-500: 24, 28, 40;
+}
+
+.light {
+  --primary-50: 85, 107, 149;
+  --primary-100: 78, 97, 136;
+  --primary-200: 70, 88, 123;
+  --primary-300: 128, 128, 128;
+  --primary-400: 148, 148, 148;
+  --primary-500: 230, 230, 230;
+  --primary-600: 189, 189, 189;
+  --primary-700: 209, 209, 209;
+  --primary-800: 230, 230, 230;
+  --primary-900: 255, 255, 255;
+  --primary-950: 242, 244, 250;
+
+  --font-primary-500: 36, 36, 36;
+  --font-primary-600: 56, 56, 56;
+  --font-primary-700: 100, 100, 100;
+
+  --secondary-500: 206, 133, 75;
+  --secondary-600: 180, 107, 49;
+
+  --accent-500: 242, 244, 250;
+}

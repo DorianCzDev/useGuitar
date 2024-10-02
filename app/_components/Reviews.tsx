@@ -189,7 +189,7 @@ function Reviews({
               <button
                 disabled={isPending}
                 onClick={() => setIsWriting(true)}
-                className="mx-auto w-4/5 text-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 hover:bg-secondary-600 rounded-2xl"
+                className="mx-auto w-4/5 text-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 hover:bg-secondary-600 rounded-2xl text-slate-50"
               >
                 Write review
               </button>

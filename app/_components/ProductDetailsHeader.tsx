@@ -191,7 +191,7 @@ function ProductDetailsHeader({ product }: ProductDetailsHeaderProps) {
               <button
                 onClick={() => dispatch(addItem(id))}
                 disabled={inventory === 0}
-                className="flex w-full items-center justify-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 rounded-2xl hover:bg-secondary-600 disabled:opacity-50 disabled:bg-secondary-600 disabled:cursor-not-allowed"
+                className="flex w-full items-center text-slate-50 justify-center outline-none cursor-pointer transition-all border-none bg-secondary-500 py-4 px-6 rounded-2xl hover:bg-secondary-600 disabled:opacity-50 disabled:bg-secondary-600 disabled:cursor-not-allowed"
               >
                 <span className="pr-3 text-2xl">
                   <FaCartPlus />
